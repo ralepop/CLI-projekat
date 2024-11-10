@@ -9,6 +9,8 @@ public:
 
     std::unique_ptr<Command> createCommand(const std::string &commandName);
 
+    // ovo je izmena od kuce
+
 };
 
 #endif
