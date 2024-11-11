@@ -7,11 +7,7 @@ class EchoCommand : public Command
 {
 public:
 
-    void execute(std::istream &input, std::ostream &output) override {
-        std::string line;
-        std::getline(input, line);
-        output << line << std::endl;
-    }
+    void execute(std::istream &input, std::ostream &output) override;
 
 };
 
