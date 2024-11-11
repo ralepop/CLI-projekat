@@ -3,25 +3,26 @@
 #define commandInterpreter_h
 
 #include "commandFactory.h"
+#include <sstream>
 
-// ova klasa upravlja celokupnim tokom interpretera
-// cita unos i izvrsava komande
+// upravlja unosom korisnika, pozivanjem odgovarajucih komandi i prosledjivanjem izlaza
 
-class commandInterpreter
+class CommandInterpreter
 {
 private:
+    
+    CommandFactory &commandFactory;
 
     std::string prompt = "$"; // korisnik ga moze menjati
-
-    CommandFactory CommandFactory;
-
-protected:
-
 
 
 public:
 
+    // konstruktor
+    CommandInterpreter(CommandFactory &t_commandFactory) : commandFactory(t_commandFactory) {};
 
+    // start() pokrece glavnu petlju za unos i izvrsavanje komandi
+    void start();
 
 };
 

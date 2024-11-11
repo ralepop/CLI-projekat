@@ -6,9 +6,9 @@
 
 class Command
 {
-protected:
+// protected:
 
-    std::string commandName;
+//     std::string commandName;
 
 public:
 
