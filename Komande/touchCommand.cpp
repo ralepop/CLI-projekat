@@ -1,6 +1,7 @@
 #include "touchCommand.h"
 
 void TouchCommand::execute(std::istream &input, std::ostream &output) {
+    
     std::string filename;
     input >> filename;
 

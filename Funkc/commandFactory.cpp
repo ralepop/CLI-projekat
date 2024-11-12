@@ -1,6 +1,6 @@
 #include "commandFactory.h"
 
-std::unique_ptr<Command> commandFactory::createCommand(const std::string &commandName)
+std::unique_ptr<Command> CommandFactory::createCommand(const std::string &commandName)
 {
     if(commandName == "echo") return std::make_unique<EchoCommand>();
     else if(commandName == "time") return std::make_unique<TimeCommand>();
