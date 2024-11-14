@@ -8,6 +8,7 @@ include_directories(Komande)
 
 add_executable(CLI_projekat
     Funkc/command.h
+    Funkc/command.cpp
     Funkc/commandFactory.cpp
     Funkc/commandFactory.h
     Funkc/commandInterpreter.cpp

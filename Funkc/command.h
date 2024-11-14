@@ -1,4 +1,5 @@
 #include <istream>
+#include <iostream>
 #ifndef command_h
 #define command_h
 
@@ -19,6 +20,9 @@ public:
     // output moze da bude std::cout, fajl ili neka druga vrsta podataka
 
     virtual void execute(std::istream &input, std::ostream &output) = 0;
+
+    // proverava da li je string unet na validan nacin
+    bool checkLine(std::string &line);
 
     virtual ~Command() = default;
 

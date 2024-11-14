@@ -11,7 +11,7 @@ int main()
     CommandFactory commandFactory;
     
     CommandInterpreter interpreter(commandFactory, prompt);
-
+    
     std::cout << "CLI interpreter - EOF to exit\n";
 
     interpreter.start();
