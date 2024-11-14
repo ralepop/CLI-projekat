@@ -2,7 +2,7 @@
 
 void CommandInterpreter::start()
 {
-    std::string line;
+    std::string line {};
     
     while(true){
         std::cout << prompt << ' ';
@@ -12,8 +12,8 @@ void CommandInterpreter::start()
             break;
         }
         
-        std::istringstream lineStream(line); // ovako analiziramo deo po deo unosa
-        std::string commandName;
+        std::istringstream lineStream{line}; // ovako analiziramo deo po deo unosa
+        std::string commandName {};
         lineStream >> commandName; // cita prvi deo iz lineStream
         
         auto command = commandFactory.createCommand(commandName);

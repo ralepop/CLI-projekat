@@ -4,7 +4,7 @@ void WcCommand::execute(std::istream &input, std::ostream &output)
 {
     // TODO: ubaci f-ju checkLine
 
-    std::string opt;
+    std::string opt {};
 
     input >> opt;
 
@@ -12,14 +12,14 @@ void WcCommand::execute(std::istream &input, std::ostream &output)
         std::cerr << "Error: Invalid -opt\n";
     }else{
 
-        std::string line;
-        bool valid = true, rec = false;
-        int i = 0;
+        std::string line {};
+        bool valid {true}, rec {false};
+        int i {0};
 
         std::getline(input, line);
 
-        char first = line[1];
-        char last = line[line.length() - 1];
+        char first {line[1]};
+        char last {line[line.length() - 1]};
 
         if((first == '"' && last != '"') || (first != '"' && last == '"')){
             std::cerr << "Error: Invalid input\n";

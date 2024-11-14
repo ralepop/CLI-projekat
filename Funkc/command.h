@@ -7,10 +7,6 @@
 
 class Command
 {
-// protected:
-
-//     std::string commandName;
-
 public:
 
     // std::istream &input prima referencu na ulazni tok 
@@ -23,6 +19,12 @@ public:
 
     // proverava da li je string unet na validan nacin
     bool checkLine(std::string &line);
+
+    // proverava da li je uneti string fajl, trenutno podrzava samo .txt fajl
+    bool checkIfFile(std::string &line);
+
+    // skida beline sa leve i desne strane
+    void stripWhitespace(std::string &line);
 
     virtual ~Command() = default;
 

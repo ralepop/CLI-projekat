@@ -2,8 +2,8 @@
 
 bool Command::checkLine(std::string &line)
 {
-    char first = line[1];
-    char last = line[line.length() - 1];
+    char first {line[1]};
+    char last {line[line.length() - 1]};
 
     if((first == '"' && last != '"') || (first != '"' && last == '"')){
         std::cerr << "Error: Invalid input\n";
@@ -15,4 +15,24 @@ bool Command::checkLine(std::string &line)
         line = line.substr(1, line.size());
         return true;
     }
+}
+
+bool Command::checkIfFile(std::string &line)
+{
+    
+}
+
+void Command::stripWhitespace(std::string &line)
+{
+    int numWhitespaceLeft {0};
+    int numWhitespaceRight {0};
+    bool word {false};
+
+    // proveravamo sa leva na desnu
+    for(char c : line){
+        if(!std::isspace(c)) word = true;
+        if(!word) numWhitespaceLeft++;
+    }
+
+    // TODO: from right to left
 }

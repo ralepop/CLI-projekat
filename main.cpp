@@ -7,8 +7,8 @@
 int main()
 {
     
-    std::string prompt = "$";
-    CommandFactory commandFactory;
+    std::string prompt {"$"};
+    CommandFactory commandFactory {};
     
     CommandInterpreter interpreter(commandFactory, prompt);
     
