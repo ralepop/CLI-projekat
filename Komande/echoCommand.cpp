@@ -7,9 +7,9 @@ void EchoCommand::execute(std::istream &input, std::ostream &output)
 
     std::getline(input, line);
     bool valid = checkLine(line);
-    bool valid = checkLine(line);
 
     if(valid) output << line << std::endl;
 
+    
     
 }

@@ -7,6 +7,7 @@
 
 class Command
 {
+
 public:
 
     // std::istream &input prima referencu na ulazni tok 
@@ -27,6 +28,8 @@ public:
     void stripWhitespace(std::string &line);
 
     virtual ~Command() = default;
+
+    // neki test onako
 
 };
 
