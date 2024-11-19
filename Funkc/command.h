@@ -21,6 +21,9 @@ public:
     // proverava da li je string unet na validan nacin
     bool checkLine(std::string &line);
 
+    // skida space na pocetku stringa
+    void stripLine(std::string &line);
+
     // proverava da li je uneti string fajl, trenutno podrzava samo .txt fajl
     bool checkIfFile(std::string &line);
 
