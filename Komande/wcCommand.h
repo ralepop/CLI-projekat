@@ -2,7 +2,6 @@
 #define wcCommand_h
 
 #include "../Funkc/command.h"
-#include <iostream>
 #include <cctype>
 
 

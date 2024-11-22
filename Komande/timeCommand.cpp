@@ -8,5 +8,11 @@ void TimeCommand::execute(std::istream &input, std::ostream &output)
     // now sadrzi lokalno vreme
     std::tm* now {std::localtime(&t)};
 
-    output << now->tm_hour << ':' << now->tm_min << ':' << now->tm_sec << '\n';
+    if(now->tm_hour < 10) output << '0';
+    output << now->tm_hour << ':';
+    if(now->tm_min < 10) output << '0';
+    output << now->tm_min << ':';
+    if(now->tm_sec < 10) output << '0';
+    output << now->tm_sec << '\n';
+
 }

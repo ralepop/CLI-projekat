@@ -2,6 +2,13 @@
 
 bool Command::checkLine(std::string &line)
 {
+    int numWhitespaceLeft {0};
+    int numWhitespaceRight {0};
+    
+    stripWhitespace(line, numWhitespaceLeft, numWhitespaceRight);
+    std::cout << numWhitespaceLeft << '\n' << numWhitespaceRight << '\n';
+    numWhitespaceRight++;
+    line = line.substr(2, line.size() - 4);
     char first {line[0]};
     char last {line[line.length() - 1]};
     bool spaceUsed {false};
@@ -25,9 +32,19 @@ bool Command::checkLine(std::string &line)
     if(!spaceUsed && quotationUsed){
         char prev {};
         for(char c : line){
-            if(prev == '\\' && c == '"') return true;
+            if(prev == '\\' && c == '"'){
+                line.erase(std::remove(line.begin(), line.end(), '\\'), line.end());
+                stripQuo(line);
+                return true;
+            }
             prev = c;
         }
+        
+        if(first == '"' && last == '"'){
+            stripQuo(line);
+            
+            return true;
+        } 
         return false;
     }
 
@@ -43,6 +60,7 @@ bool Command::checkLine(std::string &line)
             for(char c : line){
                 if(prev == '\\' && c == '"'){
                     line.erase(std::remove(line.begin(), line.end(), '\\'), line.end());
+                    stripQuo(line);
                     return true;
                 }
                 prev = c;
@@ -56,7 +74,7 @@ bool Command::checkLine(std::string &line)
 
         if((first == '"' && last != '"') || (first != '"' && last == '"')) return false;
         else if(!line.empty() && first == '"' && last == '"'){
-            line = line.substr(1, line.size() - 2);
+            stripQuo(line);
             return true;
         }
     }
@@ -64,9 +82,9 @@ bool Command::checkLine(std::string &line)
 
 }
 
-void Command::stripLine(std::string &line)
+void Command::stripQuo(std::string &line)
 {
-    line = line.substr(1, line.size());
+    line = line.substr(1, line.size() - 2);
 }
 
 bool Command::checkIfFile(std::string &line)
@@ -74,10 +92,8 @@ bool Command::checkIfFile(std::string &line)
     // zavrsi
 }
 
-void Command::stripWhitespace(std::string &line)
+void Command::stripWhitespace(std::string &line, int &numWhitespaceLeft, int &numWhitespaceRight)
 {
-    int numWhitespaceLeft {0};
-    int numWhitespaceRight {0};
     bool word {false};
 
     // proveravamo sa leva na desnu
@@ -85,6 +101,13 @@ void Command::stripWhitespace(std::string &line)
         if(!std::isspace(c)) word = true;
         if(!word) numWhitespaceLeft++;
     }
+    
+    word = false;
 
-    // TODO: from right to left
+    // proveravamo sa desna na levu
+    for(int i = line.size() - 1; i >= 0; --i){
+        char c = line[i];
+    if(!std::isspace(c)) word = true;
+        if(!word) numWhitespaceRight++;
+    }
 }

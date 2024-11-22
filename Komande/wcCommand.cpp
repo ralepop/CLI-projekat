@@ -9,26 +9,17 @@ void WcCommand::execute(std::istream &input, std::ostream &output)
     input >> opt;
 
     if(opt != "-w" && opt != "-c"){
-        std::cerr << "Error: Invalid -opt\n";
+        output << "Error: Invalid -opt\n";
     }else{
 
         std::string line {};
-        bool valid {true}, rec {false};
+        bool rec {false};
         int i {0};
 
         std::getline(input, line);
 
-        char first {line[1]};
-        char last {line[line.length() - 1]};
+        bool valid {checkLine(line)};
 
-        if((first == '"' && last != '"') || (first != '"' && last == '"')){
-            std::cerr << "Error: Invalid input\n";
-            valid = false;
-        }else if(!line.empty() && first == '"' && last == '"'){
-            line = line.substr(2, line.size() - 3);
-        }else{
-            line = line.substr(1, line.size());
-        }
         if(valid){
             for(char c : line){
                 if(opt == "-w"){
@@ -45,6 +36,8 @@ void WcCommand::execute(std::istream &input, std::ostream &output)
                 }
             }
             output << i << std::endl;
+        }else{
+            output << "Error: Invalid input\n";
         }
     }
 

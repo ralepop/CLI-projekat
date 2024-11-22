@@ -21,14 +21,14 @@ public:
     // proverava da li je string unet na validan nacin
     bool checkLine(std::string &line);
 
-    // skida space na pocetku stringa
-    void stripLine(std::string &line);
+    // skida quotation sa pocetka i kraja
+    void stripQuo(std::string &line);
 
     // proverava da li je uneti string fajl, trenutno podrzava samo .txt fajl
     bool checkIfFile(std::string &line);
 
     // skida beline sa leve i desne strane
-    void stripWhitespace(std::string &line);
+    void stripWhitespace(std::string &line, int &numWhitespaceLeft, int &numWhitespaceRight);
 
     virtual ~Command() = default;
 
