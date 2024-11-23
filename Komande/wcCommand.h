@@ -3,6 +3,7 @@
 
 #include "../Funkc/command.h"
 #include <cctype>
+#include <fstream>
 
 
 class WcCommand : public Command

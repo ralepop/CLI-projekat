@@ -1,5 +1,6 @@
 #include <istream>
 #include <iostream>
+#include <fstream>
 #ifndef command_h
 #define command_h
 
@@ -25,10 +26,13 @@ public:
     void stripQuo(std::string &line);
 
     // proverava da li je uneti string fajl, trenutno podrzava samo .txt fajl
-    bool checkIfFile(std::string &line);
+    bool checkIfFile(std::string &line, std::string filetype);
+
+    // smesta sadrzaj fajla u string
+    std::string putIntoString(std::string line);
 
     // skida beline sa leve i desne strane
-    void stripWhitespace(std::string &line, int &numWhitespaceLeft, int &numWhitespaceRight);
+    void stripWhitespace(std::string &line);
 
     virtual ~Command() = default;
 

@@ -8,5 +8,5 @@ void DateCommand::execute(std::istream &input, std::ostream &output)
     // now sadrzi lokalno vreme
     std::tm* now {std::localtime(&t)};
 
-    output << now->tm_mday << '/' << now->tm_mon << '/' << now->tm_year + 1900 << '\n';
+    output << now->tm_mday << '/' << now->tm_mon + 1 << '/' << now->tm_year + 1900 << '\n';
 }

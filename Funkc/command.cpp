@@ -2,13 +2,7 @@
 
 bool Command::checkLine(std::string &line)
 {
-    int numWhitespaceLeft {0};
-    int numWhitespaceRight {0};
-    
-    stripWhitespace(line, numWhitespaceLeft, numWhitespaceRight);
-    std::cout << numWhitespaceLeft << '\n' << numWhitespaceRight << '\n';
-    numWhitespaceRight++;
-    line = line.substr(2, line.size() - 4);
+    stripWhitespace(line);
     char first {line[0]};
     char last {line[line.length() - 1]};
     bool spaceUsed {false};
@@ -78,8 +72,6 @@ bool Command::checkLine(std::string &line)
             return true;
         }
     }
-            
-
 }
 
 void Command::stripQuo(std::string &line)
@@ -87,14 +79,36 @@ void Command::stripQuo(std::string &line)
     line = line.substr(1, line.size() - 2);
 }
 
-bool Command::checkIfFile(std::string &line)
+bool Command::checkIfFile(std::string &line, std::string filetype)
 {
-    // zavrsi
+    std::string temp { line.substr(line.size() - filetype.size(), line.size()) };
+    if(temp == filetype && line[line.size() - filetype.size() - 1] == '.') return true;
+    else return false;
 }
 
-void Command::stripWhitespace(std::string &line, int &numWhitespaceLeft, int &numWhitespaceRight)
+std::string Command::putIntoString(std::string line)
+{
+    std::ifstream file(line);
+    std::string text {};
+
+    if(!file.is_open()){
+        std::cerr << "Error: no file found\n";
+    }else{
+        while(getline(file, text)){
+            
+        }
+    }
+    file.close();
+    return text;
+}
+
+void Command::stripWhitespace(std::string &line)
 {
     bool word {false};
+    char c {};
+
+    int numWhitespaceLeft {0};
+    int numWhitespaceRight {0};
 
     // proveravamo sa leva na desnu
     for(char c : line){
@@ -103,11 +117,13 @@ void Command::stripWhitespace(std::string &line, int &numWhitespaceLeft, int &nu
     }
     
     word = false;
-
     // proveravamo sa desna na levu
     for(int i = line.size() - 1; i >= 0; --i){
-        char c = line[i];
-    if(!std::isspace(c)) word = true;
+        c = line[i];
+        if(!std::isspace(c)) word = true;
         if(!word) numWhitespaceRight++;
     }
+
+    line = line.substr(numWhitespaceLeft, line.size() - numWhitespaceRight - numWhitespaceLeft);
+    
 }
