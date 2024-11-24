@@ -24,7 +24,7 @@ public:
     prompt(t_prompt)
     {};
 
-    // start() pokrece glavnu petlju za unos i izvrsavanje komandi
+    // pokrece glavnu petlju za unos i izvrsavanje komandi
     void start();
 
 };

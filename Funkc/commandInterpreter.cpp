@@ -21,7 +21,7 @@ void CommandInterpreter::start()
         if(command){
             command->execute(lineStream, std::cout);
         }else{
-            std::cout << "command not found: " << commandName << std::endl;
+            std::cout << "Unknown command: " << commandName << std::endl;
         }
 
     }
