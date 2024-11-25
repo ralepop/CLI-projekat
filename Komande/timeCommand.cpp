@@ -2,7 +2,7 @@
 
 void TimeCommand::execute(std::istream &input, std::ostream &output)
 {
-    std::time_t t {std::time(0)}; // vraca trenutno vreme
+    std::time_t t {std::time(nullptr)}; // vraca trenutno vreme
 
     // std::tm* je pokazivac na strukturu koja sadrzi info o satima, minutima...
     // now sadrzi lokalno vreme

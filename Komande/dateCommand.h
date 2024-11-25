@@ -2,7 +2,6 @@
 #define dateCommand_h
 
 #include "../Funkc/command.h"
-#include <ctime>
 #include <iostream>
 
 class DateCommand : public Command

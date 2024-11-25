@@ -72,6 +72,7 @@ bool Command::checkLine(std::string &line)
             return true;
         }
     }
+    return false;
 }
 
 void Command::stripQuo(std::string &line)
@@ -79,14 +80,14 @@ void Command::stripQuo(std::string &line)
     line = line.substr(1, line.size() - 2);
 }
 
-bool Command::checkIfFile(std::string &line, std::string filetype)
+bool Command::checkIfFile(std::string &line, const std::string& filetype)
 {
     std::string temp { line.substr(line.size() - filetype.size(), line.size()) };
     if(temp == filetype && line[line.size() - filetype.size() - 1] == '.') return true;
     else return false;
 }
 
-std::string Command::putIntoString(std::string line)
+std::string Command::putIntoString(const std::string& line)
 {
     std::ifstream file(line);
     std::string text {};

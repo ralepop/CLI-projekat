@@ -1,8 +1,10 @@
+#ifndef command_h
+#define command_h
+
+
 #include <istream>
 #include <iostream>
 #include <fstream>
-#ifndef command_h
-#define command_h
 
 // klasa Command predstavlja osnovnu strukturu svih komandi
 
@@ -16,28 +18,25 @@ public:
 
     // std::ostream &output prima referencu na izlazni tok
     // output moze da bude std::cout, fajl ili neka druga vrsta podataka
-
     virtual void execute(std::istream &input, std::ostream &output) = 0;
 
     // proverava da li je string unet na validan nacin
-    bool checkLine(std::string &line);
+    static bool checkLine(std::string &line);
 
     // skida quotation sa pocetka i kraja
-    void stripQuo(std::string &line);
+    static void stripQuo(std::string &line);
 
     // proverava da li je uneti string fajl, trenutno podrzava samo .txt fajl
-    bool checkIfFile(std::string &line, std::string filetype);
+    static bool checkIfFile(std::string &line, const std::string& filetype);
 
     // smesta sadrzaj fajla u string
-    std::string putIntoString(std::string line);
+    static std::string putIntoString(const std::string& line);
 
     // skida beline sa leve i desne strane
-    void stripWhitespace(std::string &line);
+    static void stripWhitespace(std::string &line);
 
     virtual ~Command() = default;
-
-    // neki test onako
-
 };
 
 #endif
+
