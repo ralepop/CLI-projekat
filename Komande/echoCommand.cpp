@@ -1,5 +1,6 @@
 #include "echoCommand.h"
 #include <iostream>
+#include <string>
 
 void EchoCommand::execute(std::istream &input, std::ostream &output)
 {

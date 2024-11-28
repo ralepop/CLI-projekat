@@ -1,4 +1,5 @@
 #include "dateCommand.h"
+#include <ctime>
 
 void DateCommand::execute(std::istream &input, std::ostream &output)
 {

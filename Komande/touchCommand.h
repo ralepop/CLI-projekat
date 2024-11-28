@@ -2,7 +2,7 @@
 #define touchCommand_h
 
 #include "../Funkc/command.h"
-#include <iostream>
+
 
 class TouchCommand : public Command
 {

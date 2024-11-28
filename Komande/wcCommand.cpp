@@ -1,4 +1,5 @@
 #include "wcCommand.h"
+#include <string>
 
 void WcCommand::execute(std::istream &input, std::ostream &output)
 {

@@ -1,4 +1,5 @@
 #include "timeCommand.h"
+#include <ctime>
 
 void TimeCommand::execute(std::istream &input, std::ostream &output)
 {
