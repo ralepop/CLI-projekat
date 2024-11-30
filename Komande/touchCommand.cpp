@@ -6,7 +6,6 @@
 void TouchCommand::execute(std::istream &input, std::ostream &output) {
     
     std::string filename {};
-    std::string defaultPath {"../../"};
     
     // while petlja omogucava da kreiramo vise fajlova odjednom
     while(input >> filename){

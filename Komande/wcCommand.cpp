@@ -18,8 +18,10 @@ void WcCommand::execute(std::istream &input, std::ostream &output)
         bool isFile {checkIfFile(line, "txt")};
         bool valid {checkLine(line)};
 
+        std::string fullPath {defaultPath + line};
+
         if(isFile && valid){
-            text = putIntoString(line);
+            text = putIntoString(fullPath);
 
         }else if(valid){
             text = line;
@@ -37,7 +39,7 @@ void WcCommand::execute(std::istream &input, std::ostream &output)
                         i++;
                         word = true;
                     }
-                }else if(opt == "-c" && !std::isspace(c)) i++;
+                }else if(opt == "-c") i++;
             }
 
             output << i << std::endl;

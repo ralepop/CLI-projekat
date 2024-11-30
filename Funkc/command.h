@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 
+const std::string defaultPath {"../"};
+
 // klasa Command predstavlja osnovnu strukturu svih komandi
 
 class Command
