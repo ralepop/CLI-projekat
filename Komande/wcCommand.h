@@ -4,7 +4,6 @@
 #include "../Funkc/command.h"
 #include <fstream>
 
-
 class WcCommand : public Command
 {
 public:

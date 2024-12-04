@@ -27,7 +27,7 @@ bool Command::checkLine(std::string &line)
 
     // ako je uneta samo jedna rec i " znak, npr. et"f
     // tada treba da se ispise greska jer se ocekuje da se unese \ pre znaka " kako bi interpreter znao da i to zelimo da ispisemo
-    if(!spaceUsed && quotationUsed){
+    if(!spaceUsed){
         char prev {};
         for(char c : line){
             if(prev == '\\' && c == '"'){
@@ -47,12 +47,12 @@ bool Command::checkLine(std::string &line)
     }
 
     // ako je uneto vise reci i nije korisceno " vracamo false
-    if(spaceUsed && !quotationUsed) return false;
+    if(!quotationUsed) return false;
 
     // ako je uneto vise reci i korisceno manje od 2 " vracamo false
-    if(spaceUsed && numOfQuotationsUsed < 2) return false;
+    if(numOfQuotationsUsed < 2) return false;
 
-    if(spaceUsed && numOfQuotationsUsed > 2) {
+    if(numOfQuotationsUsed > 2) {
         if(!line.empty() && first == '"' && last == '"'){
             char prev {};
             for(char c : line){
@@ -68,13 +68,11 @@ bool Command::checkLine(std::string &line)
     }
 
     // uneto vise reci i korisceni ", proveravamo validnost
-    if(spaceUsed && quotationUsed){
 
-        if((first == '"' && last != '"') || (first != '"' && last == '"')) return false;
-        else if(!line.empty() && first == '"' && last == '"'){
-            stripQuo(line);
-            return true;
-        }
+    if((first == '"' && last != '"') || (first != '"' && last == '"')) return false;
+    else if(!line.empty() && first == '"' && last == '"'){
+        stripQuo(line);
+        return true;
     }
     return false;
 }
@@ -114,8 +112,8 @@ void Command::stripWhitespace(std::string &line)
     int numWhitespaceRight {0};
 
     // proveravamo sa leva na desnu
-    for(char c : line){
-        if(!std::isspace(c)) word = true;
+    for(const char ch : line){
+        if(!std::isspace(ch)) word = true;
         if(!word) numWhitespaceLeft++;
     }
     

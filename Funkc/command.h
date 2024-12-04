@@ -19,7 +19,7 @@ protected:
 public:
 
     // konstruktor
-    Command(bool takesArgument = true) : takesArg(takesArgument) {}
+    explicit Command(bool takesArgument = true) : takesArg(takesArgument) {}
 
     // std::istream &input prima referencu na ulazni tok 
     // input moze da bude std::cin, fajl ili neka druga vrsta podataka

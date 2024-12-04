@@ -10,10 +10,10 @@ void EchoCommand::execute(std::string &argument, std::ostream &output)
     // std::getline(input, line);
 
     stripWhitespace(argument);
-    bool isFile {checkIfFile(argument, "txt")};
+    const bool isFile {checkIfFile(argument, "txt")};
     const bool valid {checkLine(argument)};
-    
-    std::string fullPath {defaultPath + argument};
+
+    const std::string fullPath {defaultPath + argument};
 
     if(isFile && valid){
         text = putIntoString(fullPath);

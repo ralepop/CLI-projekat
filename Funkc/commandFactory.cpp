@@ -9,9 +9,9 @@
 std::unique_ptr<Command> CommandFactory::createCommand(const std::string &commandName)
 {
     if(commandName == "echo") return std::make_unique<EchoCommand>();
-    else if(commandName == "time") return std::make_unique<TimeCommand>();
-    else if(commandName == "date") return std::make_unique<DateCommand>();
-    else if(commandName == "wc") return std::make_unique<WcCommand>();
-    else if(commandName == "touch") return std::make_unique<TouchCommand>();
-    else return nullptr; // nepoznata komanda
+    if(commandName == "time") return std::make_unique<TimeCommand>();
+    if(commandName == "date") return std::make_unique<DateCommand>();
+    if(commandName == "wc") return std::make_unique<WcCommand>();
+    if(commandName == "touch") return std::make_unique<TouchCommand>();
+    return nullptr; // nepoznata komanda
 }

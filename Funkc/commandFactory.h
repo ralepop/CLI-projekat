@@ -2,8 +2,6 @@
 #define commandFactory_h
 
 #include "command.h"
-#include <memory>
-
 
 class CommandFactory
 {

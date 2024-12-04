@@ -1,5 +1,5 @@
 #include "commandInterpreter.h"
-#include <cctype>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -11,7 +11,6 @@ void CommandInterpreter::start()
     std::string argument {};
     int zapamti {};
     bool argumentExist {false};
-    bool isNoArgFunction {false};
 
     while (std::cout << prompt << ' ' && std::getline(std::cin, line)) {
 
@@ -31,12 +30,11 @@ void CommandInterpreter::start()
 
                     argument = line.substr(zapamti + 1, line.length());
                     command->execute(argument, std::cout);
-                    continue;
 
                 }else{ // ukoliko argument ne postoji
                     
                     std::vector<std::string> argumenti {};
-                    
+
                     while (std::getline(std::cin, argument)) {
 
                         if (argument.empty()) break;

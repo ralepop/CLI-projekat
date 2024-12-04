@@ -3,12 +3,11 @@
 
 void TimeCommand::execute(std::string &argument, std::ostream &output)
 {
-
-    std::time_t t {std::time(nullptr)}; // vraca trenutno vreme
+    const std::time_t t {std::time(nullptr)}; // vraca trenutno vreme
 
     // std::tm* je pokazivac na strukturu koja sadrzi info o satima, minutima...
     // now sadrzi lokalno vreme
-    std::tm* now {std::localtime(&t)};
+    const std::tm* now {std::localtime(&t)};
 
     if(now->tm_hour < 10) output << '0';
     output << now->tm_hour << ':';
