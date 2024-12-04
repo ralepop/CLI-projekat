@@ -1,11 +1,12 @@
 #include "wcCommand.h"
+#include "command.h"
 #include <string>
 
-void WcCommand::execute(std::istream &input, std::ostream &output)
+void WcCommand::execute(std::string &argument, std::ostream &output)
 {
-    
-    std::string opt {};
-    input >> opt;
+    std::string opt {argument.substr(0, 2)};
+    argument = argument.substr(3);
+
 
     if(opt != "-w" && opt != "-c"){
         output << "Error: Invalid -opt\n";
@@ -13,38 +14,38 @@ void WcCommand::execute(std::istream &input, std::ostream &output)
 
         std::string line {};
         std::string text {};
-        std::getline(input, line);
-        stripWhitespace(line);
-        bool isFile {checkIfFile(line, "txt")};
-        bool valid {checkLine(line)};
+        stripWhitespace(argument);
+        bool isFile {checkIfFile(argument, "txt")};
+        bool valid {checkLine(argument)};
 
-        std::string fullPath {defaultPath + line};
+        std::string fullPath {defaultPath + argument};
 
         if(isFile && valid){
             text = putIntoString(fullPath);
-
         }else if(valid){
-            text = line;
-
+            text = argument;
         }
 
         bool word {false};
         int i {0};
 
         if(valid){
-            for(char c : text){
-                if(opt == "-w"){
+            if(opt == "-w"){
+                for(char c : text){
                     if(std::isspace(c)) word = false;
                     else if(!word){
                         i++;
                         word = true;
                     }
-                }else if(opt == "-c") i++;
+                }
+            }else if(opt == "-c"){
+                i = text.length();
             }
 
             output << i << std::endl;
 
         }else output << "Error: Invalid input\n";
     }
+
 
 }

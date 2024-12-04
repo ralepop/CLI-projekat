@@ -3,23 +3,19 @@
 #include <iostream>
 #include <string>
 
-void TouchCommand::execute(std::istream &input, std::ostream &output) {
+void TouchCommand::execute(std::string &argument, std::ostream &output) {
     
-    std::string filename {};
-    
-    // while petlja omogucava da kreiramo vise fajlova odjednom
-    while(input >> filename){
-        std::string fullPath {defaultPath + filename};
+    std::string fullPath {defaultPath + argument};
 
-        const bool valid {checkLine(fullPath)};
+    const bool valid {checkLine(fullPath)};
 
-        std::ifstream infile{fullPath};
+    std::ifstream infile{fullPath};
 
-        if(infile.is_open()) {
-            output << "Error: File " << filename << " already exists.\n";
-        }else{
-            std::ofstream file{fullPath};
-        }
+    if(infile.is_open()) {
+        output << "Error: File " << argument << " already exists.\n";
+    }else{
+        std::ofstream file{fullPath};
     }
+
     
 }

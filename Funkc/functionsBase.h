@@ -7,4 +7,9 @@
 #include "../Komande/touchCommand.h"
 #include "../Komande/wcCommand.h"
 
+#include <string>
+#include <vector>
+
+const std::vector<std::string> noArgFunctions {"time", "date"};
+
 #endif

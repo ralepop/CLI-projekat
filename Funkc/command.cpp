@@ -95,11 +95,9 @@ std::string Command::putIntoString(const std::string& line)
     std::string text {};
 
     if(!file.is_open()){
-        std::cerr << "Error: no file found\n";
+        std::cerr << "Error: no file found";
     }else{
-        while(getline(file, text)){
-            
-        }
+        while(getline(file, text)) { }
     }
     file.close();
     return text;
@@ -129,4 +127,14 @@ void Command::stripWhitespace(std::string &line)
 
     line = line.substr(numWhitespaceLeft, line.size() - numWhitespaceRight - numWhitespaceLeft);
     
+}
+
+bool Command::argumentExist(std::string &line, int &poz){
+    for(int i = 0; i < line.length(); i++){
+        if(std::isspace(line[i])){
+            poz = i;
+            return true;
+        }
+    }
+    return false;
 }

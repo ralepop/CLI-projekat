@@ -1,15 +1,27 @@
 #include "echoCommand.h"
+#include "command.h"
 #include <iostream>
 #include <string>
 
-void EchoCommand::execute(std::istream &input, std::ostream &output)
+void EchoCommand::execute(std::string &argument, std::ostream &output)
 {
-    std::string line {};
+    std::string text {};
 
-    std::getline(input, line);
-    const bool valid {checkLine(line)};
+    // std::getline(input, line);
+
+    stripWhitespace(argument);
+    bool isFile {checkIfFile(argument, "txt")};
+    const bool valid {checkLine(argument)};
     
-    if(valid) output << line << std::endl;
+    std::string fullPath {defaultPath + argument};
+
+    if(isFile && valid){
+        text = putIntoString(fullPath);
+    }else if(valid){
+        text = argument;
+    }
+
+    if(valid) output << text << std::endl;
     else output << "Error: Invalid input\n";
-    
+
 }
