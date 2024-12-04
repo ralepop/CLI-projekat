@@ -1,5 +1,11 @@
 #include "commandFactory.h"
 
+#include "dateCommand.h"
+#include "echoCommand.h"
+#include "timeCommand.h"
+#include "touchCommand.h"
+#include "wcCommand.h"
+
 std::unique_ptr<Command> CommandFactory::createCommand(const std::string &commandName)
 {
     if(commandName == "echo") return std::make_unique<EchoCommand>();

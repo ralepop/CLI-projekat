@@ -2,10 +2,7 @@
 #define command_h
 
 
-#include <istream>
 #include <iostream>
-#include <fstream>
-#include <vector>
 
 const std::string defaultPath {"../"};
 

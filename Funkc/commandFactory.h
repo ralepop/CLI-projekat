@@ -2,7 +2,6 @@
 #define commandFactory_h
 
 #include "command.h"
-#include "functionsBase.h"
 #include <memory>
 
 

@@ -2,7 +2,6 @@
 #define commandInterpreter_h
 
 #include "commandFactory.h"
-#include <sstream>
 
 // upravlja unosom korisnika, pozivanjem odgovarajucih komandi i prosledjivanjem izlaza
 

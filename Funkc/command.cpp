@@ -1,6 +1,8 @@
 #include "command.h"
+
 #include <string>
 #include <algorithm>
+#include <fstream>
 
 bool Command::checkLine(std::string &line)
 {
