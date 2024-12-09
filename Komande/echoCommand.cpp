@@ -3,25 +3,27 @@
 #include <iostream>
 #include <string>
 
-void EchoCommand::execute(std::string &argument, std::ostream &output)
-{
-    std::string text {};
-
-    // std::getline(input, line);
+void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output) {
+    
+    std::string text;
 
     stripWhitespace(argument);
-    const bool isFile {checkIfFile(argument, "txt")};
-    const bool valid {checkLine(argument)};
+    const bool isFile = checkIfFile(argument, "txt");
+    const bool valid = checkLine(argument);
 
-    const std::string fullPath {defaultPath + argument};
+    const std::string fullPath = defaultPath + argument;
 
-    if(isFile && valid){
+    if (isFile && valid) {
         text = putIntoString(fullPath);
-    }else if(valid){
+    } else if (valid) {
         text = argument;
     }
 
-    if(valid) output << text << std::endl;
-    else output << "Error: Invalid input\n";
+    if (valid) {
+        output << text << std::endl;
+    }
+    else {
+        output << "Error: Invalid input\n";
+    }
 
 }

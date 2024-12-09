@@ -2,13 +2,14 @@
 #define wcCommand_h
 
 #include "../Funkc/command.h"
-#include <fstream>
 
 class WcCommand : public Command
 {
 public:
 
-    void execute(std::string &argument, std::ostream &output) override;
+    WcCommand() : Command(true, true) {} // uzima argumente i uzima opt 
+
+    void execute(char &opt, std::string &argument, std::ostream &output) override;
 
 };
 

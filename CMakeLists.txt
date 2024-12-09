@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.29)
 project(CLI_projekat)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 
 include_directories(Funkc)
 include_directories(Komande)
@@ -13,7 +13,6 @@ add_executable(CLI_projekat
         Funkc/commandFactory.h
         Funkc/commandInterpreter.cpp
         Funkc/commandInterpreter.h
-        Funkc/functionsBase.h
         Komande/dateCommand.cpp
         Komande/dateCommand.h
         Komande/echoCommand.cpp

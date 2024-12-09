@@ -5,19 +5,19 @@
 
 // upravlja unosom korisnika, pozivanjem odgovarajucih komandi i prosledjivanjem izlaza
 
-class CommandInterpreter
-{
+class CommandInterpreter {
+
 private:
     
     CommandFactory &commandFactory;
 
-    std::string prompt = "$"; // korisnik ga moze menjati
+    std::string prompt; // korisnik ga moze menjati
 
 
 public:
 
     // konstruktor
-    CommandInterpreter(CommandFactory &t_commandFactory, std::string t_prompt) : 
+    CommandInterpreter(CommandFactory &t_commandFactory, std::string t_prompt = "$") : 
     commandFactory(t_commandFactory),
     prompt(t_prompt)
     {};

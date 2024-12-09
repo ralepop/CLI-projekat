@@ -1,13 +1,14 @@
 #include "dateCommand.h"
 #include <ctime>
+#include <iomanip> // std::put_time
 
-void DateCommand::execute(std::string &argument, std::ostream &output)
-{
-    const std::time_t t {std::time(nullptr)}; // vraca trenutno vreme
+void DateCommand::execute(char &opt, std::string &argument, std::ostream &output) {
+    
+    const std::time_t t = std::time(nullptr); // vraca trenutno vreme
 
     // std::tm* je pokazivac na strukturu koja sadrzi info o satima, minutima...
     // now sadrzi lokalno vreme
-    const std::tm* now {std::localtime(&t)};
+    const std::tm* now = std::localtime(&t);
 
-    output << now->tm_mday << '.' << now->tm_mon + 1 << '.' << now->tm_year + 1900 << ".\n";
+    output << std::put_time(now, "%d.%m.%Y") << ".\n";
 }

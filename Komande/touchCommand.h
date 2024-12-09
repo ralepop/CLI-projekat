@@ -8,7 +8,7 @@ class TouchCommand : public Command
 {
 public:
 
-    void execute(std::string &argument, std::ostream &output) override;
+    void execute(char &opt, std::string &argument, std::ostream &output) override;
 
 };
 

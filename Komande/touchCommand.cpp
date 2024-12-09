@@ -3,7 +3,7 @@
 #include <fstream>
 #include <string>
 
-void TouchCommand::execute(std::string &argument, std::ostream &output) {
+void TouchCommand::execute(char &opt, std::string &argument, std::ostream &output) {
     
     std::string fullPath {defaultPath + argument};
 

@@ -3,14 +3,13 @@
 
 #include "command.h"
 
-class CommandFactory
-{
+class CommandFactory {
 
 public:
 
     // prima naziv komande i na osnovu njega kreira instancu specificne komande
     // vraca nullptr ako ne odgovara nijednoj poznatoj komandi
-    // unique_ptr je pogodan jer brise sam objekat kada se vise ne koristi
+    // std::make_unique automatski upravlja memorijom i sprecava curenje memorije
     static std::unique_ptr<Command> createCommand(const std::string &commandName);
 
 };
