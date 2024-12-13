@@ -20,7 +20,8 @@ void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output
     }
 
     if (valid) {
-        output << text << std::endl;
+        if(isFile) output << text;
+        else output << text << std::endl;
     }
     else {
         output << "Error: Invalid input\n";
