@@ -17,10 +17,3 @@ int main()
 
     return 0;
 }
-
-/* TODO:
-
-- staviti da time i date nemaju argument
-- uraditi EOF
-
-*/

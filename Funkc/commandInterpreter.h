@@ -23,7 +23,7 @@ public:
     {};
 
     // pokrece glavnu petlju za unos i izvrsavanje komandi
-    void start();
+    void start() const;
 
 };
 
