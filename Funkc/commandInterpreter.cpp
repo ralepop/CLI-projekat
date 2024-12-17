@@ -8,46 +8,46 @@
 void CommandInterpreter::start() const {
     char commandName[10] {};
     char opt[3] {};
+    char argument[500] {};
+
+    char errorPositions[512] {};
+
+    std::string line;
+    std::string ost;
 
     while (std::cout << prompt << ' ' && std::cin >> commandName) {
+        
+        line = std::string(commandName);
+
+        auto command = CommandFactory::createCommand(std::string(commandName));
+
+        if (!command) {
+
+            std::getline(std::cin, ost);
+            line += ost;
 
 
-        if (auto command = CommandFactory::createCommand(std::string(commandName))) {
+        } else {
 
-            if (command->doesTakeOpt()) { // ako nasa funkcija uzima opt
+            if (command->doesTakeOpt()) {
                 std::cin >> opt;
+                line += " " + std::string(opt);
             }
 
-            if (command->doesTakeArg()) { // ako nasa funkcija uzima arg
+            if (command->doesTakeArg()) {
 
-                char argument[500] {};
-                
                 std::cin.getline(argument, sizeof(argument));
 
-                std::string arg(argument);
-
-                if (!arg.empty()) {
-
-                    command->execute(opt[1], arg, std::cout);
-
-                } else {
-
-                    std::vector<std::string> arguments;
-
-                    while (std::getline(std::cin, arg) && !arg.empty()) {
-                        arguments.push_back(arg);
-                    }
-
-                    for (auto& arg : arguments) {
-                        command->execute(opt[1], arg, std::cout);
-                    }
-                }
-            } else { // ako nasa funkcija ne uzima arg
-                std::string prazan;
-                command->execute(opt[1], prazan, std::cout);
+                line += std::string(argument);
             }
-        } else {
-            std::cout << "Un§known command: " << commandName << std::endl;
+
+            std::string arg(argument);
+
+            command->execute(opt[1], arg, std::cout);
+
         }
+        
+        Command::errorHandling(line);
+
     }
 }

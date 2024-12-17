@@ -14,6 +14,10 @@ public:
 
     void execute(char &opt, std::string &argument, std::ostream &output) override;
 
+    std::string getName() const override {
+        return "time";
+    }
+
 };
 
 #endif

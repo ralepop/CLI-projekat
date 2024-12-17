@@ -18,7 +18,6 @@ protected:
     bool takesArg = true;
     bool takesOpt = false;
 
-
 public:
 
     // konstruktor, explicit osigurava pravilan poziv konstruktora i izbegava implicitne konverzije
@@ -55,6 +54,8 @@ public:
     // vraca naziv -opt (ako postoji) i sece liniju do kraja -opt
     static char opt(std::string &line);
 
+    static void errorHandling(const std::string &line);
+
     bool doesTakeArg() const {
         return takesArg;
     }
@@ -65,6 +66,8 @@ public:
 
     // destruktor
     virtual ~Command() = default;
+
+    virtual std::string getName() const = 0;
 };
 
 #endif

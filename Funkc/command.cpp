@@ -5,6 +5,7 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <vector>
 
 bool Command::checkLine(std::string &line) {
 
@@ -90,7 +91,7 @@ std::string Command::putIntoString(const std::string& line) {
     std::ifstream file(line);
 
     if (!file.is_open()) {
-        std::cout << "Error: no file found";
+        std::cout << "Error: no file found\n";
         return "";
     }
 
@@ -145,4 +146,31 @@ char Command::opt(std::string &line) {
         return opt;
     }
     return '\0';
+}
+
+
+void Command::errorHandling(const std::string &line) {
+
+    std::string validSymbols = "-\"<>.|: ";
+
+    std::vector<size_t> errorPositions;
+
+    for (size_t i = 0; i < line.length(); ++i) {
+        char c = line[i];
+
+        if (!std::isalnum(c) && validSymbols.find(c) == std::string::npos) {
+            errorPositions.push_back(i);
+        }
+    }
+
+    if (!errorPositions.empty()) {
+        std::cout << "\nError - unexpected characters:\n";
+        std::cout << line << '\n';
+
+        for (size_t i = 0; i < line.length(); ++i) {
+            std::cout << (std::find(errorPositions.begin(), errorPositions.end(), i) != errorPositions.end() ? '^' : ' ');
+        }
+        std::cout << '\n';
+    }
+
 }
