@@ -18,6 +18,7 @@ bool Command::checkLine(std::string &line) {
     // ukoliko nema dva navodnika
     if (firstQuo == std::string::npos || lastQuo == std::string::npos || firstQuo == lastQuo) {
         return false;
+
     }
 
     // proverava da li ima nesto pre ili posle navodnika
