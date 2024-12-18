@@ -22,9 +22,15 @@ void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output
     if (valid) {
         if(isFile) output << text;
         else output << text << std::endl;
-    }
-    else {
+    } else {
+
+
+        std::string line = "echo " + argument;
+        const bool errHandl = errorHandling(line);
+
         output << "Error: Invalid input\n";
+        
+
     }
 
 }

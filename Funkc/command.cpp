@@ -7,73 +7,32 @@
 #include <fstream>
 #include <vector>
 
+
 bool Command::checkLine(std::string &line) {
-
-    stripWhitespace(line);
-
     if (line.empty()) return false;
 
-    char first = line.front();
-    char last = line.back();
-    bool spaceUsed = false;
-    bool quotationUsed = false;
-    int numOfQuotationsUsed = 0;
 
-    // proveravamo da li ima space
-    for(char c : line){
-        if (std::isspace(c)) {
-            spaceUsed = true;
-        } else if (c == '"') {
-            quotationUsed = true;
-            ++numOfQuotationsUsed;
-        }
-    }
+    const size_t firstQuo = line.find_first_of('"');
+    const size_t lastQuo = line.find_last_of('"');
 
-    // ako je uneta samo jedna rec
-    if(!spaceUsed && !quotationUsed) return true;
-
-    // ako je uneta samo jedna rec i " znak, npr. et"f
-    // tada treba da se ispise greska jer se ocekuje da se unese \ pre znaka " kako bi interpreter znao da i to zelimo da ispisemo
-    if(!spaceUsed){
-
-        if(first == '"' && last == '"'){
-            stripQuo(line);
-            return true;
-        }
-
-        for(size_t i = 1; i < line.size(); ++i) {
-            if (line[i - 1] == '\\' && line[i] == '"') {
-                line.erase(std::remove(line.begin(), line.end(), '\\'), line.end());
-                stripQuo(line);
-                return true;
-            }
-        }
-
+    // ukoliko nema dva navodnika
+    if (firstQuo == std::string::npos || lastQuo == std::string::npos || firstQuo == lastQuo) {
         return false;
-        
     }
 
-    // ako je uneto vise reci i nije korisceno " vracamo false
-    // ako je uneto vise reci i korisceno manje od 2 " vracamo false
-    if(!quotationUsed || numOfQuotationsUsed < 2) return false;
-
-    if(numOfQuotationsUsed > 2) {
-        for(size_t i = 1; i < line.size(); ++i) {
-            if (line[i - 1] == '\\' && line[i] == '"') {
-                line.erase(std::remove(line.begin(), line.end(), '\\'), line.end());
-                stripQuo(line);
-                return true;
-            }
-        }
-        return  false;
+    // proverava da li ima nesto pre ili posle navodnika
+    if (firstQuo != 0 || lastQuo != line.size() - 1) {
+        return false;
     }
 
-    // uneto vise reci i korisceni ", proveravamo validnost
+    const std::string argument = line.substr(firstQuo + 1, lastQuo - firstQuo - 1);
 
-    if ((first == '"' && last != '"') || (first != '"' && last == '"')) return false;
+    if (argument.empty()) return false;
 
-    stripQuo(line);
+    line = argument;
+
     return true;
+
 }
 
 void Command::stripQuo(std::string &line) {
@@ -149,9 +108,11 @@ char Command::opt(std::string &line) {
 }
 
 
-void Command::errorHandling(const std::string &line) {
+bool Command::errorHandling(const std::string &line) {
 
-    std::string validSymbols = "-\"<>.|: ";
+    bool fine = true;
+
+    const std::string validSymbols = "-\"<>.|: ";
 
     std::vector<size_t> errorPositions;
 
@@ -167,10 +128,14 @@ void Command::errorHandling(const std::string &line) {
         std::cout << "\nError - unexpected characters:\n";
         std::cout << line << '\n';
 
+        fine = false;
+
         for (size_t i = 0; i < line.length(); ++i) {
             std::cout << (std::find(errorPositions.begin(), errorPositions.end(), i) != errorPositions.end() ? '^' : ' ');
         }
         std::cout << '\n';
     }
 
+
+    return fine;
 }

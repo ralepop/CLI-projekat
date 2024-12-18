@@ -1,9 +1,9 @@
 #include "commandInterpreter.h"
 #include "command.h"
 #include <string>
-#include <vector>
 #include <iostream>
 #include <cstring>
+
 
 void CommandInterpreter::start() const {
     char commandName[10] {};
@@ -26,6 +26,7 @@ void CommandInterpreter::start() const {
             std::getline(std::cin, ost);
             line += ost;
 
+            Command::errorHandling(line);
 
         } else {
 
@@ -43,11 +44,16 @@ void CommandInterpreter::start() const {
 
             std::string arg(argument);
 
+
+            // echo "
+            // rale
+            // todor
+            // "
+
             command->execute(opt[1], arg, std::cout);
 
         }
         
-        Command::errorHandling(line);
 
     }
 }

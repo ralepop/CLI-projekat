@@ -1,7 +1,6 @@
 #ifndef command_h
 #define command_h
 
-
 #include <iostream>
 #include <string>
 
@@ -39,6 +38,9 @@ public:
     // skida quotation sa pocetka i kraja
     static void stripQuo(std::string &line);
 
+    // proverava da li se karakter nalazi unutar quotes 
+    static bool checkIfInsideQuo(const std::string &line);
+
     // proverava da li je uneti string fajl (.txt fajl)
     static bool checkIfFile(const std::string &line, const std::string& filetype);
 
@@ -54,7 +56,9 @@ public:
     // vraca naziv -opt (ako postoji) i sece liniju do kraja -opt
     static char opt(std::string &line);
 
-    static void errorHandling(const std::string &line);
+    // proverava da li ima nedozvoljenih karatkera i stavlja ^ ispod ukoliko ima
+    // vraca true ako je sve u redu, vraca false ako je nasao barem jedan nedozvoljen karakter
+    static bool errorHandling(const std::string &line);
 
     bool doesTakeArg() const {
         return takesArg;
