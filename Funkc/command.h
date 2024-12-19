@@ -4,8 +4,6 @@
 #include <iostream>
 #include <string>
 
-const std::string defaultPath = "../";
-
 const int MAX_LENGTH = 512;
 
 // klasa Command predstavlja osnovnu strukturu svih komandi

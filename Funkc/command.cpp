@@ -3,33 +3,32 @@
 #include <cctype>
 #include <cstddef>
 #include <string>
-#include <algorithm>
 #include <fstream>
 #include <vector>
 
 
 bool Command::checkLine(std::string &line) {
-    if (line.empty()) return false;
+    stripWhitespace(line);
 
+    if (line.empty()) return false;
 
     const size_t firstQuo = line.find_first_of('"');
     const size_t lastQuo = line.find_last_of('"');
 
     // ukoliko nema dva navodnika
     if (firstQuo == std::string::npos || lastQuo == std::string::npos || firstQuo == lastQuo) {
-        return false;
 
+        for (const char ch : line) {
+            if (std::isspace(ch)) return false;
+        }
+        return true;
     }
 
     // proverava da li ima nesto pre ili posle navodnika
-    if (firstQuo != 0 || lastQuo != line.size() - 1) {
-        return false;
-    }
+    if (firstQuo != 0 || lastQuo != line.size() - 1) return false;
 
     const std::string argument = line.substr(firstQuo + 1, lastQuo - firstQuo - 1);
-
     if (argument.empty()) return false;
-
     line = argument;
 
     return true;
@@ -69,8 +68,8 @@ void Command::stripWhitespace(std::string &line) {
      
     const char* whiteSpace = " \t\n";
 
-    std::size_t left = line.find_first_not_of(whiteSpace); // prvi karakter koji nije whitespace
-    std::size_t right = line.find_last_not_of(whiteSpace); // poslednji karakter koji nije whitespace
+    const std::size_t left = line.find_first_not_of(whiteSpace); // prvi karakter koji nije whitespace
+    const std::size_t right = line.find_last_not_of(whiteSpace); // poslednji karakter koji nije whitespace
 
     if (left == right) {
         line.clear();
@@ -110,10 +109,8 @@ char Command::opt(std::string &line) {
 
 
 bool Command::errorHandling(const std::string &line) {
-
-    bool fine = true;
-
     const std::string validSymbols = "-\"<>.|: ";
+    bool fine = true;
 
     std::vector<size_t> errorPositions;
 
@@ -126,9 +123,8 @@ bool Command::errorHandling(const std::string &line) {
     }
 
     if (!errorPositions.empty()) {
-        std::cout << "\nError - unexpected characters:\n";
+        std::cout << "Error - unexpected characters:\n";
         std::cout << line << '\n';
-
         fine = false;
 
         for (size_t i = 0; i < line.length(); ++i) {
@@ -136,7 +132,6 @@ bool Command::errorHandling(const std::string &line) {
         }
         std::cout << '\n';
     }
-
-
     return fine;
+
 }

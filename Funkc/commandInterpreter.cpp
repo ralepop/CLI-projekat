@@ -10,14 +10,12 @@ void CommandInterpreter::start() const {
     char opt[3] {};
     char argument[500] {};
 
-    char errorPositions[512] {};
 
-    std::string line;
     std::string ost;
 
     while (std::cout << prompt << ' ' && std::cin >> commandName) {
-        
-        line = std::string(commandName);
+
+        std::string line = std::string(commandName);
 
         auto command = CommandFactory::createCommand(std::string(commandName));
 
@@ -26,7 +24,9 @@ void CommandInterpreter::start() const {
             std::getline(std::cin, ost);
             line += ost;
 
-            Command::errorHandling(line);
+            if (Command::errorHandling(line)) {
+                std::cout << "Error: Unknown command " << commandName << '\n';
+            }
 
         } else {
 
@@ -44,11 +44,6 @@ void CommandInterpreter::start() const {
 
             std::string arg(argument);
 
-
-            // echo "
-            // rale
-            // todor
-            // "
 
             command->execute(opt[1], arg, std::cout);
 

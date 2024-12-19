@@ -7,14 +7,11 @@ void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output
     
     std::string text;
 
-    stripWhitespace(argument);
     const bool isFile = checkIfFile(argument, "txt");
     const bool valid = checkLine(argument);
 
-    const std::string fullPath = defaultPath + argument;
-
     if (isFile && valid) {
-        text = putIntoString(fullPath);
+        text = putIntoString(argument);
     } else if (valid) {
         text = argument;
     }
@@ -24,12 +21,10 @@ void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output
         else output << text << std::endl;
     } else {
 
-
-        std::string line = "echo " + argument;
-        const bool errHandl = errorHandling(line);
-
-        output << "Error: Invalid input\n";
-        
+        const std::string line = "echo " + argument;
+        if (errorHandling(line)) {
+           output << "Error: Invalid input\n";
+        }
 
     }
 
