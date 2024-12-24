@@ -36,9 +36,6 @@ public:
     // skida quotation sa pocetka i kraja
     static void stripQuo(std::string &line);
 
-    // proverava da li se karakter nalazi unutar quotes 
-    static bool checkIfInsideQuo(const std::string &line);
-
     // proverava da li je uneti string fajl (.txt fajl)
     static bool checkIfFile(const std::string &line, const std::string& filetype);
 
@@ -48,11 +45,19 @@ public:
     // skida beline sa leve i desne strane
     static void stripWhitespace(std::string &line);
 
+    // kreira fajl
+    static void createFile(std::string &filename, std::ostream &output);
+
+    static std::vector<std::string> splitString(const std::string &line);
+
     // vraca naziv komande i sece liniju do kraja komande
     static std::string commandName(std::string &line);
 
     // vraca naziv -opt (ako postoji) i sece liniju do kraja -opt
     static char opt(std::string &line);
+
+    // proverava da li u stringu ima razmaka
+    static bool whitespaceExist(std::string &line);
 
     // proverava da li ima nedozvoljenih karatkera i stavlja ^ ispod ukoliko ima
     // vraca true ako je sve u redu, vraca false ako je nasao barem jedan nedozvoljen karakter

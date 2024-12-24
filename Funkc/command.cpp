@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <fstream>
 
 
 bool Command::checkLine(std::string &line) {
@@ -71,12 +72,57 @@ void Command::stripWhitespace(std::string &line) {
     const std::size_t left = line.find_first_not_of(whiteSpace); // prvi karakter koji nije whitespace
     const std::size_t right = line.find_last_not_of(whiteSpace); // poslednji karakter koji nije whitespace
 
-    if (left == right) {
-        line.clear();
-    } else {
-        line = line.substr(left, right - left + 1);
-    }
+    if (left == right) line.clear();
+    else line = line.substr(left, right - left + 1);
    
+}
+
+std::vector<std::string> Command::splitString(const std::string &line) {
+    std::vector<std::string> words;
+
+    bool isQuo = false;
+    size_t quoPosition = 0;
+    char c;
+    size_t front = 0;
+
+
+    for (size_t i = 0; i <= line.size(); ++i) {
+        c = line[i];
+        if (c == '\"' && !isQuo) {
+            quoPosition = i;
+            isQuo = true;
+        } else if (c == '\"') {
+            words.push_back(line.substr(quoPosition + 1, i - quoPosition - 1));
+            isQuo = false;
+            i++;
+            front = i + 1;
+        }
+
+
+        if (i == line.size() || c == ' ' && !isQuo) {
+            words.push_back(line.substr(front, i - front));
+            front = i + 1;
+        }
+    }
+
+    return words;
+}
+
+void Command::createFile(std::string &filename, std::ostream &output) {
+    std::ifstream infile(filename);
+
+    if(infile.is_open()) {
+        output << "Error: File " << filename << " already exists.\n";
+        return;
+    }
+
+
+    std::ofstream file(filename);
+
+    if (!file) {
+        output << "Error: Could not create the file " << filename << ".\n";
+    }
+
 }
 
 std::string Command::commandName(std::string &line) {
@@ -100,11 +146,19 @@ char Command::opt(std::string &line) {
 
     // proveravamo da li je pretraga uspesna i da li postoji barem jedan karakter nakon pos
     if (pos != std::string::npos && pos + 1 < line.size()) {
-        char opt = line[pos + 1];
+        const char opt = line[pos + 1];
         line = line.substr(pos + 2);
         return opt;
     }
     return '\0';
+}
+
+bool Command::whitespaceExist(std::string &line) {
+    for (const char c : line) {
+        if (std::isspace(c)) return true;
+    }
+
+    return false;
 }
 
 

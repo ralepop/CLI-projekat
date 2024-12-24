@@ -1,19 +1,26 @@
 #include "touchCommand.h"
 
-#include <fstream>
 #include <string>
+#include <vector>
 
 void TouchCommand::execute(char &opt, std::string &argument, std::ostream &output) {
-    
-    std::string fullPath {defaultPath + argument};
 
-    std::ifstream infile{fullPath};
+    stripWhitespace(argument);
 
-    if(infile.is_open()) {
-        output << "Error: File " << argument << " already exists.\n";
-    }else{
-        std::ofstream file{fullPath};
+    const std::string line = "echo " + argument;
+
+    if (errorHandling(line)) {
+        if (whitespaceExist(argument)) {
+
+            for (std::string file : splitString(argument)) {
+                createFile(file, output);
+            }
+
+        } else {
+            createFile(argument, output);
+        }
     }
 
     
+
 }

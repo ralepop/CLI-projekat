@@ -8,8 +8,8 @@ int main()
 {
     const std::string prompt = "$";
     CommandFactory commandFactory;
-    
-    CommandInterpreter interpreter(commandFactory, prompt);
+
+    const CommandInterpreter interpreter(commandFactory, prompt);
     
     std::cout << "CLI interpreter - EOF to exit\n";
 

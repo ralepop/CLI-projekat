@@ -13,13 +13,12 @@ void WcCommand::execute(char &opt, std::string &argument, std::ostream &output)
         std::string line {};
         std::string text {};
         stripWhitespace(argument);
-        const bool isFile {checkIfFile(argument, "txt")};
-        const bool valid {checkLine(argument)};
+        const bool isFile (checkIfFile(argument, "txt"));
+        const bool valid (checkLine(argument));
 
-        const std::string fullPath {defaultPath + argument};
 
         if(isFile && valid){
-            text = putIntoString(fullPath);
+            text = putIntoString(argument);
         }else if(valid){
             text = argument;
         }
