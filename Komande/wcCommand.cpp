@@ -10,7 +10,6 @@ void WcCommand::execute(char &opt, std::string &argument, std::ostream &output)
         output << "Error: Invalid -opt\n";
     }else{
 
-        std::string line {};
         std::string text {};
         stripWhitespace(argument);
         const bool isFile (checkIfFile(argument, "txt"));
@@ -26,7 +25,7 @@ void WcCommand::execute(char &opt, std::string &argument, std::ostream &output)
         bool word {false};
         int i {0};
 
-        if(valid){
+        if (valid) {
             if(opt == 'w'){
                 for(const char c : text){
                     if(std::isspace(c)) word = false;
@@ -35,13 +34,22 @@ void WcCommand::execute(char &opt, std::string &argument, std::ostream &output)
                         word = true;
                     }
                 }
-            }else if(opt == 'c'){
+            } else {
                 i = text.length();
             }
 
             output << i << std::endl;
 
-        }else output << "Error: Invalid input\n";
+        } else {
+
+
+
+            const std::string line = "wc " + std::string{opt} + " " + argument;
+            if (errorHandling(line)) {
+                output << "Error: Invalid input\n";
+            }
+
+        }
     }
 
 
