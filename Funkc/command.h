@@ -30,6 +30,8 @@ public:
     // output moze da bude std::cout, fajl ili neka druga vrsta podataka
     virtual void execute(char &opt, std::string &argument, std::ostream &output) = 0;
 
+    static bool argumentExist(const std::string &line, int &poz);
+
     // proverava da li je string unet na validan nacin
     static bool checkLine(std::string &line);
 

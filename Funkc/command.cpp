@@ -5,8 +5,12 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include <fstream>
 
+
+bool Command::argumentExist(const std::string &line, int &poz) {
+    poz = line.find_first_of(" \t");
+    return (poz != std::string::npos);
+}
 
 bool Command::checkLine(std::string &line) {
 
