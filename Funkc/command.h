@@ -32,6 +32,8 @@ public:
 
     static bool newlineExist(const std::string &line);
 
+    static void splitNewline(const std::string &line, std::vector<std::string> &lines);
+
     // proverava da li je string unet na validan nacin
     static bool checkLine(std::string &line);
 

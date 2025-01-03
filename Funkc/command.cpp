@@ -11,6 +11,17 @@ bool Command::newlineExist(const std::string &line) {
     return (line.find('\n') != std::string::npos);
 }
 
+void Command::splitNewline(const std::string &line, std::vector<std::string> &lines) {
+    size_t start = 0;
+    size_t end = line.find('\n');
+
+    while (end != std::string::npos) {
+        lines.push_back(line.substr(start, end - start));
+        start = end + 1;
+        end = line.find('\n', start); // nalazimo sledeci '\n'
+    }
+}
+
 
 bool Command::checkLine(std::string &line) {
 
