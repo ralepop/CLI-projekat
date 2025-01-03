@@ -9,7 +9,6 @@
 
 
 bool Command::checkLine(std::string &line) {
-    stripWhitespace(line);
 
     if (line.empty()) return false;
 

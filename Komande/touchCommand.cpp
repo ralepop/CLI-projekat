@@ -5,8 +5,6 @@
 
 void TouchCommand::execute(char &opt, std::string &argument, std::ostream &output) {
 
-    stripWhitespace(argument);
-
     const std::string line = "touch " + argument;
 
     if (errorHandling(line)) {

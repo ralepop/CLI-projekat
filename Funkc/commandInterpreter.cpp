@@ -6,20 +6,24 @@
 
 
 void CommandInterpreter::start() const {
-    char commandName[10] {};
-    char opt[3] {};
-    char argument[500] {};
 
 
-    std::string ost;
+    while (true) {
 
-    while (std::cout << prompt << ' ' && std::cin >> commandName) {
+        char commandName[9] {};
+        char opt[3] {};
+        // char argument[500] {};
+        std::cout << prompt << ' ';
+        std::cin >> commandName;
+
+        if (commandName[0] == '\0') break;
 
         std::string line = std::string(commandName);
 
-        auto command = CommandFactory::createCommand(std::string(commandName));
+        const auto command = CommandFactory::createCommand(std::string(commandName));
 
         if (!command) {
+            std::string ost;
 
             std::getline(std::cin, ost);
             line += ost;
@@ -30,25 +34,32 @@ void CommandInterpreter::start() const {
 
         } else {
 
+            std::string arg;
+            size_t argSize;
             if (command->doesTakeOpt()) {
                 std::cin >> opt;
                 line += " " + std::string(opt);
+                argSize = 513 - std::strlen(commandName) - std::strlen(opt);
+            } else {
+                argSize = 513 - std::strlen(commandName);
             }
 
-            if (command->doesTakeArg()) {
 
-                std::cin.getline(argument, sizeof(argument));
+            char* argument = new char[argSize]();
 
-                line += std::string(argument);
-            }
+            std::cin.getline(argument, argSize);
 
-            std::string arg(argument);
+            size_t chrArgSize = std::strlen(argument);
 
+            line += std::string(argument);
+            arg += std::string(argument);
 
+            Command::stripWhitespace(arg);
             command->execute(opt[1], arg, std::cout);
 
+
+            delete[] argument;
         }
-        
 
     }
 }

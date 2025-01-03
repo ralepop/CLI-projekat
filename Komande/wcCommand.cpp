@@ -11,7 +11,6 @@ void WcCommand::execute(char &opt, std::string &argument, std::ostream &output)
     }else{
 
         std::string text {};
-        stripWhitespace(argument);
         const bool isFile (checkIfFile(argument, "txt"));
         const bool valid (checkLine(argument));
 
@@ -22,11 +21,11 @@ void WcCommand::execute(char &opt, std::string &argument, std::ostream &output)
             text = argument;
         }
 
-        bool word {false};
         int i {0};
 
         if (valid) {
             if(opt == 'w'){
+                bool word {false};
                 for(const char c : text){
                     if(std::isspace(c)) word = false;
                     else if(!word){
