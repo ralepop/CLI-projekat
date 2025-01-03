@@ -7,10 +7,11 @@
 #include <vector>
 
 
-bool Command::argumentExist(const std::string &line, int &poz) {
-    poz = line.find_first_of(" \t");
+bool Command::newlineExist(const std::string &line, int &poz) {
+    poz = line.find('\n');
     return (poz != std::string::npos);
 }
+
 
 bool Command::checkLine(std::string &line) {
 
@@ -23,7 +24,7 @@ bool Command::checkLine(std::string &line) {
     if (firstQuo == std::string::npos || lastQuo == std::string::npos || firstQuo == lastQuo) {
 
         for (const char ch : line) {
-            if (std::isspace(ch)) return false;
+            if (ch == ' ') return false;
         }
         return true;
     }
