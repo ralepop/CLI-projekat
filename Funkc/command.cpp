@@ -7,9 +7,8 @@
 #include <vector>
 
 
-bool Command::newlineExist(const std::string &line, int &poz) {
-    poz = line.find('\n');
-    return (poz != std::string::npos);
+bool Command::newlineExist(const std::string &line) {
+    return (line.find('\n') != std::string::npos);
 }
 
 
