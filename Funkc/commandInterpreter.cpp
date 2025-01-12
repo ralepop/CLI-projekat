@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-constexpr size_t MAX_LINE_SIZE = 10;
+constexpr size_t MAX_LINE_SIZE = 512;
 
 void CommandInterpreter::start() const {
 
@@ -42,6 +42,15 @@ void CommandInterpreter::start() const {
 
         std::getline(inputStream, arg);
         Command::stripWhitespace(arg);
+
+        if (arg.empty() && command->doesTakeArg()) {
+            std::string additionalLine;
+            while (true) {
+                std::getline(std::cin, additionalLine);
+                if (additionalLine.empty()) break;
+                arg += (arg.empty() ? "" : "\n") + additionalLine;
+            }
+        }
 
         command->execute(opt[1], arg, std::cout);
 
