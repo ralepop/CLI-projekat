@@ -30,7 +30,6 @@ public:
     // output moze da bude std::cout, fajl ili neka druga vrsta podataka
     virtual void execute(char &opt, std::string &argument, std::ostream &output) = 0;
 
-    static bool newlineExist(const std::string &line);
 
     static void splitNewline(const std::string &line, std::vector<std::string> &lines);
 
@@ -60,12 +59,19 @@ public:
     // vraca naziv -opt (ako postoji) i sece liniju do kraja -opt
     static char opt(std::string &line);
 
+    // proverava da li je unos u nekoliko redova
+    static bool newlineExist(const std::string &line);
+
     // proverava da li u stringu ima razmaka
-    static bool whitespaceExist(std::string &line);
+    static bool whitespaceExist(const std::string &line);
+
+    // proverava da li linija sadrzi preusmerenje (redirect)
+    static bool redirectExist(const std::string &line);
 
     // proverava da li ima nedozvoljenih karatkera i stavlja ^ ispod ukoliko ima
     // vraca true ako je sve u redu, vraca false ako je nasao barem jedan nedozvoljen karakter
     static bool errorHandling(const std::string &line);
+
 
     bool doesTakeArg() const {
         return takesArg;

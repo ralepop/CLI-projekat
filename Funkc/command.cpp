@@ -168,12 +168,16 @@ char Command::opt(std::string &line) {
     return '\0';
 }
 
-bool Command::whitespaceExist(std::string &line) {
+bool Command::whitespaceExist(const std::string &line) {
     for (const char c : line) {
         if (std::isspace(c)) return true;
     }
 
     return false;
+}
+
+bool Command::redirectExist(const std::string &line) {
+    return line.find('>') != std::string::npos;
 }
 
 
