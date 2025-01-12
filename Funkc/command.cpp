@@ -20,6 +20,7 @@ void Command::splitNewline(const std::string &line, std::vector<std::string> &li
         start = end + 1;
         end = line.find('\n', start); // nalazimo sledeci '\n'
     }
+    lines.push_back(line.substr(start, line.length() - start));
 }
 
 
