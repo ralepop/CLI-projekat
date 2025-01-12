@@ -2,7 +2,7 @@
 #include <ctime>
 #include <iomanip> // setfill, setw
 
-void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output) {
+void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
     
     const std::time_t t = std::time(nullptr); // vraca trenutno vreme
 

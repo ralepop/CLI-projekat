@@ -4,7 +4,7 @@
 #include <vector>
 #include <ostream>
 
-void WcCommand::execute(char &opt, std::string& argument, std::ostream& output) {
+void WcCommand::execute(char &opt, std::string& argument, std::ostream& output, bool &redirectExist) {
     // provera za -opt
     if (opt != 'w' && opt != 'c') {
         output << "Error: Invalid option\n";
@@ -36,13 +36,13 @@ void WcCommand::execute(char &opt, std::string& argument, std::ostream& output) 
 
     // procesuiramo za odredjeni -opt
     if (opt == 'w') {
-        processOptW(text, output);
+        processOptW(text, output, redirectExist);
     } else if (opt == 'c') {
-        processOptC(text, output);
+        processOptC(text, output, redirectExist);
     }
 }
 
-void WcCommand::processOptW(const std::string& text, std::ostream& output) {
+void WcCommand::processOptW(const std::string& text, std::ostream& output, bool &redirectExist) {
     if (newlineExist(text)) {
         // delimo linije i procesuiramo svako
         std::vector<std::string> lines;
@@ -60,7 +60,7 @@ void WcCommand::processOptW(const std::string& text, std::ostream& output) {
     }
 }
 
-void WcCommand::processOptC(const std::string& text, std::ostream& output) {
+void WcCommand::processOptC(const std::string& text, std::ostream& output, bool &redirectExist) {
     if (newlineExist(text)) {
         // delimo linije i procesuiramo svako
         std::vector<std::string> lines;

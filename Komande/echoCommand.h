@@ -7,7 +7,7 @@ class EchoCommand : public Command {
 
 public:
 
-    void execute(char &opt, std::string &argument, std::ostream &output) override;
+    void execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) override;
 
     std::string getName() const override {
         return "echo";

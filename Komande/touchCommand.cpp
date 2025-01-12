@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-void TouchCommand::execute(char &opt, std::string &argument, std::ostream &output) {
+void TouchCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
 
     const std::string line = "touch " + argument;
 

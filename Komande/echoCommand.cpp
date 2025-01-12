@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output) {
+void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
     std::string text;
 
     const bool isFile = checkIfFile(argument, "txt");
@@ -31,6 +31,8 @@ void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output
         } else {
             output << text << std::endl; // ako je uneta samo jedna linija
         }
+
+
     } else {
         const std::string line = "echo " + argument;
         if (errorHandling(line)) {

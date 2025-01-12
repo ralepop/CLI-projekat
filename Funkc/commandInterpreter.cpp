@@ -52,7 +52,9 @@ void CommandInterpreter::start() const {
             }
         }
 
-        command->execute(opt[1], arg, std::cout);
+        bool rediExist = Command::redirectExist(inputLine);
+
+        command->execute(opt[1], arg, std::cout, rediExist);
 
     }
 
