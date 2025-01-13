@@ -1,6 +1,8 @@
 #include "wcCommand.h"
+
 #include "command.h"
 #include <string>
+#include <fstream>
 #include <vector>
 #include <ostream>
 
@@ -9,6 +11,11 @@ void WcCommand::execute(char &opt, std::string& argument, std::ostream& output, 
     if (opt != 'w' && opt != 'c') {
         output << "Error: Invalid option\n";
         return;
+    }
+
+    std::string redirectFile;
+    if (redirectExist) {
+        redirectFile = redirectProcess(argument);
     }
 
     // pamtimo unos
@@ -36,13 +43,13 @@ void WcCommand::execute(char &opt, std::string& argument, std::ostream& output, 
 
     // procesuiramo za odredjeni -opt
     if (opt == 'w') {
-        processOptW(text, output, redirectExist);
+        processOptW(text, output, redirectFile);
     } else if (opt == 'c') {
-        processOptC(text, output, redirectExist);
+        processOptC(text, output, redirectFile);
     }
 }
 
-void WcCommand::processOptW(const std::string& text, std::ostream& output, bool &redirectExist) {
+void WcCommand::processOptW(std::string& text, std::ostream& output, std::string &redirectFile) {
     if (newlineExist(text)) {
         // delimo linije i procesuiramo svako
         std::vector<std::string> lines;
@@ -56,11 +63,16 @@ void WcCommand::processOptW(const std::string& text, std::ostream& output, bool 
 
     } else {
         // kada je uneta jedna linija
-        output << countingWords(text) << '\n';
+        if (!redirectFile.empty()) {
+            std::ofstream file(redirectFile);
+            file << countingWords(text);
+        } else {
+            output << countingWords(text) << '\n';
+        }
     }
 }
 
-void WcCommand::processOptC(const std::string& text, std::ostream& output, bool &redirectExist) {
+void WcCommand::processOptC(std::string& text, std::ostream& output, std::string &redirectFile) {
     if (newlineExist(text)) {
         // delimo linije i procesuiramo svako
         std::vector<std::string> lines;
@@ -74,6 +86,11 @@ void WcCommand::processOptC(const std::string& text, std::ostream& output, bool 
 
     } else {
         // kada je uneta jedna linija
-        output << text.length() << '\n';
+        if (!redirectFile.empty()) {
+            std::ofstream file(redirectFile);
+            file << text.length();
+        } else {
+            output << text.length() << '\n';
+        }
     }
 }
