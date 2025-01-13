@@ -1,5 +1,6 @@
 #include "timeCommand.h"
 #include <ctime>
+#include <fstream>
 #include <iomanip> // setfill, setw
 
 void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
@@ -10,10 +11,23 @@ void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output
     // now sadrzi lokalno vreme
     const std::tm* now = std::localtime(&t);
 
-    output
-        << std::setfill('0')
-        << std::setw(2) << now->tm_hour << ':'
-        << std::setw(2) << now->tm_min << ':'
-        << std::setw(2) << now->tm_sec << '\n';
+    std::string redirectFile;
+    if (redirectExist) {
+        redirectFile = redirectProcess(argument);
+    }
 
+    if (redirectExist && !redirectFile.empty()) {
+        std::ofstream file(redirectFile);
+        file
+            << std::setfill('0')
+            << std::setw(2) << now->tm_hour << ':'
+            << std::setw(2) << now->tm_min << ':'
+            << std::setw(2) << now->tm_sec << '\n';
+    } else {
+        output
+            << std::setfill('0')
+            << std::setw(2) << now->tm_hour << ':'
+            << std::setw(2) << now->tm_min << ':'
+            << std::setw(2) << now->tm_sec << '\n';
+    }
 }

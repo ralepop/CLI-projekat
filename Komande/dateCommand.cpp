@@ -1,5 +1,6 @@
 #include "dateCommand.h"
 #include <ctime>
+#include <fstream>
 #include <iomanip> // std::put_time
 
 void DateCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
@@ -10,5 +11,16 @@ void DateCommand::execute(char &opt, std::string &argument, std::ostream &output
     // now sadrzi lokalno vreme
     const std::tm* now = std::localtime(&t);
 
-    output << std::put_time(now, "%d.%m.%Y") << ".\n";
+    std::string redirectFile;
+    if (redirectExist) {
+        redirectFile = redirectProcess(argument);
+    }
+
+    if (redirectExist && !redirectFile.empty()) {
+        std::ofstream file(redirectFile);
+        file << std::put_time(now, "%d.%m.%Y") << ".\n";
+    }else {
+        output << std::put_time(now, "%d.%m.%Y") << ".\n";
+    }
+
 }
