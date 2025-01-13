@@ -1,15 +1,22 @@
 #include "echoCommand.h"
+
+#include <fstream>
 #include "command.h"
-#include <iostream>
 #include <string>
 #include <vector>
 
 void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
-    std::string text;
+
+    std::string redirectFile;
+
+    if (redirectExist) {
+        redirectFile = redirectProcess(argument); // procesuiramo argument ako ima redirect znak
+    }
 
     const bool isFile = checkIfFile(argument, "txt");
     bool valid = true;
 
+    std::string text;
     if (isFile) {
         text = putIntoString(argument);
     } else {
@@ -28,10 +35,17 @@ void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output
             for (std::string &line : lines) {
                 output << line << std::endl;
             }
-        } else {
-            output << text << std::endl; // ako je uneta samo jedna linija
-        }
 
+        } else { // ako je uneta samo jedna linija
+
+            if (redirectExist && !redirectFile.empty()) { // u fajl jer postoji redirect znak
+                std::ofstream file(redirectFile, std::ios::out);
+                file << text;
+                file.close();
+            } else {
+                output << text << std::endl;
+            }
+        }
 
     } else {
         const std::string line = "echo " + argument;
