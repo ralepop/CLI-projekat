@@ -68,6 +68,9 @@ public:
     // proverava da li linija sadrzi preusmerenje (redirect)
     static bool redirectExist(const std::string &line);
 
+    // sece liniju nakon '>' znaka i vraca fajl za redirect u obliku stringa
+    static std::string redirectProcess(std::string &line);
+
     // proverava da li ima nedozvoljenih karatkera i stavlja ^ ispod ukoliko ima
     // vraca true ako je sve u redu, vraca false ako je nasao barem jedan nedozvoljen karakter
     static bool errorHandling(const std::string &line);
