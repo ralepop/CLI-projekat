@@ -212,6 +212,7 @@ std::string Command::redirectProcess(std::string &line, bool &doubleRedirect) {
         }
     }
 
+
     return "";
 }
 
