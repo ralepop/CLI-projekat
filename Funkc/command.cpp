@@ -57,9 +57,15 @@ void Command::stripQuo(std::string &line) {
     }
 }
 
-bool Command::checkIfFile(const std::string &line, const std::string& filetype) {
+bool Command::checkIfFile(std::string &line, const std::string& filetype) {
     if (line.size() < filetype.size() + 1) return false;
-    return line.ends_with(filetype) && line[line.size() - filetype.size() - 1] == '.';
+
+    const size_t pos = line.find('<'); // trazimo poziciju ulaznog znakovnog toka
+    if (pos != std::string::npos) { // proveravamo da li ulazni znakovni tok uopste postoji
+        line = line.substr(pos + 1, line.length()); // skidamo znak '<'
+        stripWhitespace(line);
+    }
+    return line.ends_with('.' + filetype);
 }
 
 std::string Command::putIntoString(const std::string& line) {

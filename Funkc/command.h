@@ -40,7 +40,7 @@ public:
     static void stripQuo(std::string &line);
 
     // proverava da li je uneti string fajl (.txt fajl)
-    static bool checkIfFile(const std::string &line, const std::string& filetype);
+    static bool checkIfFile(std::string &line, const std::string &filetype);
 
     // smesta sadrzaj fajla u string
     static std::string putIntoString(const std::string &line);
