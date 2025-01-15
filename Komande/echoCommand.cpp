@@ -9,8 +9,9 @@ void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output
 
     std::string redirectFile;
 
+    bool doubleRedirect = false;
     if (redirectExist) {
-        redirectFile = redirectProcess(argument); // procesuiramo argument ako ima redirect znak
+        redirectFile = redirectProcess(argument, doubleRedirect); // procesuiramo argument ako ima redirect znak
     }
 
     const bool isFile = checkIfFile(argument, "txt");

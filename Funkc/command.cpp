@@ -186,25 +186,54 @@ bool Command::redirectExist(const std::string &line) {
     return line.find('>') != std::string::npos;
 }
 
-std::string Command::redirectProcess(std::string &line) {
-    // wc -w "Lorem ipsum dolor sit amet" >output.txt
-
+std::string Command::redirectProcess(std::string &line, bool &doubleRedirect) {
 
     const size_t posTxt = line.find(".txt");
 
     if (posTxt != std::string::npos) {
-        const size_t pos = line.rfind('>', posTxt); // nalazi > pre .txt
+
+        size_t pos = line.rfind(">>", posTxt);
 
         if (pos != std::string::npos) {
-            std::string redirectFile = line.substr(pos + 1, posTxt - pos + 4);
-
+            std::string redirectFile = line.substr(pos + 2, posTxt - pos + 4);
+            doubleRedirect = true;
             line = line.substr(0, pos);
             stripWhitespace(line);
             stripWhitespace(redirectFile);
-
             return redirectFile;
-
         }
+
+        pos = line.rfind('>', posTxt);
+        if (pos != std::string::npos) {
+            std::string redirectFile = line.substr(pos + 1, posTxt - pos + 4);
+            line = line.substr(0, pos);
+            stripWhitespace(line);
+            stripWhitespace(redirectFile);
+            return redirectFile;
+        }
+
+
+
+
+
+    //
+    //     // size_t pos = line.rfind('>', posTxt); // nalazi > pre .txt
+    //
+    //     if (pos != std::string::npos) {
+    //         std::string redirectFile = line.substr(pos + 1, posTxt - pos + 4);
+    //
+    //         line = line.substr(0, pos);
+    //         pos = line.find('>');
+    //         if (pos != std::string::npos) {
+    //             doubleRedirect = true;
+    //             line = line.substr(0, pos);
+    //         }
+    //         stripWhitespace(line);
+    //         stripWhitespace(redirectFile);
+    //
+    //         return redirectFile;
+    //
+    //     }
     }
 
     return "";

@@ -12,8 +12,9 @@ void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output
     const std::tm* now = std::localtime(&t);
 
     std::string redirectFile;
+    bool doubleRedirect = false;
     if (redirectExist) {
-        redirectFile = redirectProcess(argument);
+        redirectFile = redirectProcess(argument, doubleRedirect);
     }
 
     if (redirectExist && !redirectFile.empty()) {
