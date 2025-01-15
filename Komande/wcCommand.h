@@ -29,9 +29,9 @@ public:
         return i;
     }
 
-    static void processOptW(std::string &text, std::ostream &output, std::string &redirectFile);
+    static void processOptW(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect);
 
-    static void processOptC(std::string &text, std::ostream &output, std::string &redirectFile);
+    static void processOptC(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect);
 };
 
 #endif

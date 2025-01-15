@@ -69,7 +69,7 @@ public:
     static bool redirectExist(const std::string &line);
 
     // sece liniju nakon '>' znaka i vraca fajl za redirect u obliku stringa
-    static std::string redirectProcess(std::string &line);
+    static std::string redirectProcess(std::string &line, bool &doubleRedirect);
 
     // proverava da li ima nedozvoljenih karatkera i stavlja ^ ispod ukoliko ima
     // vraca true ako je sve u redu, vraca false ako je nasao barem jedan nedozvoljen karakter
