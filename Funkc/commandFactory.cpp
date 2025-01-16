@@ -8,7 +8,9 @@
 #include "touchCommand.h"
 #include "wcCommand.h"
 #include "promptCommand.h"
+#include "rmCommand.h"
 #include "truncateCommand.h"
+
 
 std::unique_ptr<Command> CommandFactory::createCommand(const std::string &commandName) {
     if (commandName == "echo") return std::make_unique<EchoCommand>();
@@ -18,5 +20,6 @@ std::unique_ptr<Command> CommandFactory::createCommand(const std::string &comman
     if (commandName == "touch") return std::make_unique<TouchCommand>();
     if (commandName == "prompt") return std::make_unique<PromptCommand>();
     if (commandName == "truncate") return std::make_unique<TruncateCommand>();
+    if (commandName == "rm") return std::make_unique<RmCommand>();
     return nullptr; // nepoznata komanda
 }

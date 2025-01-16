@@ -5,20 +5,24 @@
 
 void TouchCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
 
-    const std::string line = "touch " + argument;
 
-    if (errorHandling(line)) {
-        if (whitespaceExist(argument)) {
+    if (newlineExist(argument)) { // ako je uneto vise linija
 
-            for (std::string file : splitString(argument)) {
+        std::vector<std::string> lines;
+        splitNewline(argument, lines); // ubacujemo linije u vektor lines
+
+        for (std::string &file : lines) {
+            if (errorHandling(file)) {
                 createFile(file, output);
             }
+        }
 
-        } else {
+    } else { // ako je uneta samo jedna linija
+        if (errorHandling(argument)) {
             createFile(argument, output);
         }
-    }
 
+    }
     
 
 }
