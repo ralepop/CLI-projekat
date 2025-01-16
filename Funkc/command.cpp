@@ -93,7 +93,7 @@ void Command::stripWhitespace(std::string &line) {
     const std::size_t left = line.find_first_not_of(whiteSpace); // prvi karakter koji nije whitespace
     const std::size_t right = line.find_last_not_of(whiteSpace); // poslednji karakter koji nije whitespace
 
-    if (left == right) line.clear();
+    if (left == right) line = line.substr(left, 1);
     else line = line.substr(left, right - left + 1);
    
 }

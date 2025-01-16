@@ -23,4 +23,6 @@ add_executable(CLI_projekat
         Komande/touchCommand.h
         Komande/wcCommand.cpp
         Komande/wcCommand.h
+        Komande/promptCommand.cpp
+        Komande/promptCommand.h
         main.cpp)

@@ -6,10 +6,10 @@
 
 int main()
 {
-    const std::string prompt = "$";
+    std::string prompt = "$";
     CommandFactory commandFactory;
 
-    const CommandInterpreter interpreter(commandFactory, prompt);
+    CommandInterpreter interpreter(commandFactory, prompt);
     
     std::cout << "CLI interpreter - EOF to exit\n";
 

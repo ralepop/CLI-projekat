@@ -1,7 +1,7 @@
 #include "echoCommand.h"
 
-#include <fstream>
 #include "command.h"
+#include <fstream>
 #include <string>
 #include <vector>
 

@@ -4,7 +4,7 @@
 
 constexpr size_t MAX_LINE_SIZE = 512;
 
-void CommandInterpreter::start() const {
+void CommandInterpreter::start(){
 
     while (true) {
         std::cout << prompt << ' ';
@@ -50,6 +50,13 @@ void CommandInterpreter::start() const {
                 if (additionalLine.empty()) break;
                 arg += (arg.empty() ? "" : "\n") + additionalLine;
             }
+        }
+
+        if (command->getName() == "prompt") {
+            if (!arg.empty()) {
+                prompt = arg;
+            }
+            continue;
         }
 
         bool rediExist = Command::redirectExist(inputLine);

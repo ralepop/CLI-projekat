@@ -17,13 +17,17 @@ private:
 public:
 
     // konstruktor
-    CommandInterpreter(CommandFactory &t_commandFactory, std::string t_prompt = "$") : 
+    CommandInterpreter(CommandFactory &t_commandFactory, std::string t_prompt = "$") :
     commandFactory(t_commandFactory),
     prompt(t_prompt)
     {};
 
     // pokrece glavnu petlju za unos i izvrsavanje komandi
-    void start() const;
+    void start();
+
+    void setPrompt(const std::string &p) {
+        prompt = p;
+    }
 
 };
 
