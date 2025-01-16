@@ -61,6 +61,7 @@ void CommandInterpreter::start(){
 
         bool rediExist = Command::redirectExist(inputLine);
 
+
         command->execute(opt[1], arg, std::cout, rediExist);
 
     }

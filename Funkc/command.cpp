@@ -87,7 +87,9 @@ std::string Command::putIntoString(const std::string& line) {
 }
 
 void Command::stripWhitespace(std::string &line) {
-     
+
+    if (line.empty()) return;
+
     const char* whiteSpace = " \t\n";
 
     const std::size_t left = line.find_first_not_of(whiteSpace); // prvi karakter koji nije whitespace

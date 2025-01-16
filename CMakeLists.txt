@@ -25,4 +25,6 @@ add_executable(CLI_projekat
         Komande/wcCommand.h
         Komande/promptCommand.cpp
         Komande/promptCommand.h
+        Komande/truncateCommand.cpp
+        Komande/truncateCommand.h
         main.cpp)
