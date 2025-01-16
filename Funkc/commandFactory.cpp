@@ -9,6 +9,7 @@
 #include "wcCommand.h"
 #include "promptCommand.h"
 #include "rmCommand.h"
+#include "trCommand.h"
 #include "truncateCommand.h"
 
 
@@ -21,5 +22,6 @@ std::unique_ptr<Command> CommandFactory::createCommand(const std::string &comman
     if (commandName == "prompt") return std::make_unique<PromptCommand>();
     if (commandName == "truncate") return std::make_unique<TruncateCommand>();
     if (commandName == "rm") return std::make_unique<RmCommand>();
+    if (commandName == "tr") return std::make_unique<TrCommand>();
     return nullptr; // nepoznata komanda
 }

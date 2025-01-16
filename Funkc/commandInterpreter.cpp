@@ -36,7 +36,7 @@ void CommandInterpreter::start(){
         std::string opt;
         std::string arg;
 
-        if (command->doesTakeOpt()) {
+        if (command->doesTakeOpt() && commandName != "tr") {
             inputStream >> opt;
         }
 
