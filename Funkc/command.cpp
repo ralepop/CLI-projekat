@@ -100,35 +100,27 @@ void Command::stripWhitespace(std::string &line) {
    
 }
 
-std::vector<std::string> Command::splitString(const std::string &line) {
-    std::vector<std::string> words;
+std::vector<std::string> Command::splitString(const std::string &line, char c) {
+    std::vector<std::string> result;
+    std::string temp;
+    size_t start = 0;
+    size_t end = 0;
 
-    bool isQuo = false;
-    size_t quoPosition = 0;
-    char c;
-    size_t front = 0;
+    while ( (end = line.find(c, start)) != std::string::npos ) {
+        temp = line.substr(start, end - start);
+        stripWhitespace(temp);
 
-
-    for (size_t i = 0; i <= line.size(); ++i) {
-        c = line[i];
-        if (c == '\"' && !isQuo) {
-            quoPosition = i;
-            isQuo = true;
-        } else if (c == '\"') {
-            words.push_back(line.substr(quoPosition + 1, i - quoPosition - 1));
-            isQuo = false;
-            i++;
-            front = i + 1;
-        }
-
-
-        if (i == line.size() || c == ' ' && !isQuo) {
-            words.push_back(line.substr(front, i - front));
-            front = i + 1;
-        }
+        result.push_back(temp);
+        start = end + 1;
     }
 
-    return words;
+    // za poslednju
+    // ako je recimo unos: cmd1 | cmd2 | cmd3 temp uzima cmd3
+    temp = line.substr(start);
+    stripWhitespace(temp);
+    result.push_back(temp);
+
+    return result;
 }
 
 void Command::createFile(std::string &filename, std::ostream &output) {
@@ -216,6 +208,9 @@ std::string Command::redirectProcess(std::string &line, bool &doubleRedirect) {
     return "";
 }
 
+bool Command::pipeExist(const std::string &line) {
+    return line.find('|') != std::string::npos;
+}
 
 bool Command::errorHandling(const std::string &line) {
     const std::string validSymbols = "-\"<>.|: ";

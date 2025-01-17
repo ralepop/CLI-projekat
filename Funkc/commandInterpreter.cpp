@@ -19,50 +19,85 @@ void CommandInterpreter::start(){
             inputLine = inputLine.substr(0, MAX_LINE_SIZE);
         }
 
-        // uzimamo commandName
-        std::istringstream inputStream(inputLine);
-        std::string commandName;
-        inputStream >> commandName;
+        std::vector<std::string> inputs;
 
-        const auto command = CommandFactory::createCommand(commandName);
+        if (Command::pipeExist(inputLine)) {
+            inputs = Command::splitString(inputLine, '|');
+        } else {
+            inputs.push_back(inputLine);
+        }
 
-        if (!command) {
-            if (Command::errorHandling(inputLine)) {
-                std::cout << "Error: Unknown command \"" << commandName << "\".\n";
+        // input = "time | tr ":" "." | wc -c > time.txt"
+        // arg   = "| tr ":" "." | wc -c > time.txt"
+
+        std::ostringstream outputBuffer; // cuva izlaz komande
+        bool isFirst = true;
+        std::string lastResult;
+
+
+        for (const std::string &input : inputs) {
+
+            // proveravamo da li je prvi input u pitanju
+            // ako jeste onda mora da sadrzi argument bez obzira da li ima cevovod ili ne
+            if (isFirst && input != inputs[0]) isFirst = false;
+
+            std::istringstream inputStream(input);
+            std::string commandName;
+            inputStream >> commandName;
+
+            const auto command = CommandFactory::createCommand(commandName);
+
+            if (!command) {
+                if (Command::errorHandling(inputLine)) {
+                    std::cout << "Error: Unknown command \"" << commandName << "\".\n";
+                }
+                continue;
             }
-            continue;
-        }
 
-        std::string opt;
-        std::string arg;
+            std::string opt, arg;
 
-        if (command->doesTakeOpt() && commandName != "tr") {
-            inputStream >> opt;
-        }
-
-        std::getline(inputStream, arg);
-        Command::stripWhitespace(arg);
-
-        if (arg.empty() && command->doesTakeArg()) {
-            std::string additionalLine;
-            while (true) {
-                std::getline(std::cin, additionalLine);
-                if (additionalLine.empty()) break;
-                arg += (arg.empty() ? "" : "\n") + additionalLine;
+            if (command->doesTakeOpt() && commandName != "tr") {
+                inputStream >> opt;
+                if (opt.empty()) {
+                    std::cout << "Erorr: Invalid -opt\n";
+                    continue;
+                }
             }
-        }
 
-        if (command->getName() == "prompt") {
-            if (!arg.empty()) {
-                prompt = arg;
+            std::getline(inputStream, arg);
+            Command::stripWhitespace(arg);
+
+            // ako treba da se unese vise linija
+            if (arg.empty() && command->doesTakeArg() && !Command::pipeExist(inputLine)) {
+                std::string additionalLine;
+                while (true) {
+                    std::getline(std::cin, additionalLine);
+                    if (additionalLine.empty()) break;
+                    arg += (arg.empty() ? "" : "\n") + additionalLine;
+                }
             }
-            continue;
+
+            // ukoliko nije prvi za argument uzimamo output iz prosle iteracije
+            if (command->doesTakeArg() && !isFirst) {
+                arg = lastResult;
+            }
+
+
+            if (command->getName() == "prompt") {
+                if (!arg.empty()) {
+                    prompt = arg;
+                }
+                continue;
+            }
+
+            bool rediExist = Command::redirectExist(input);
+
+            std::ostream& output = (inputs.size() > 1) ? outputBuffer : std::cout;
+
+            command->execute(opt[1], arg, output, rediExist);
+
+            lastResult = outputBuffer.str();
         }
-
-        bool rediExist = Command::redirectExist(inputLine);
-
-
-        command->execute(opt[1], arg, std::cout, rediExist);
 
     }
 

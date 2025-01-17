@@ -51,7 +51,12 @@ public:
     // kreira fajl
     static void createFile(std::string &filename, std::ostream &output);
 
-    static std::vector<std::string> splitString(const std::string &line);
+    // splituje string u odnosu na char c i stavlja u vector
+    // u slucaju: time | tr ":" "." | wc -c > time.txt, char c bi bio '|'
+    // pa bi vector[0] = "time"
+    // vector[1] = "tr ":" ".""
+    // vector[2] = "wc -c > time.txt"
+    static std::vector<std::string> splitString(const std::string &line, char c);
 
     // vraca naziv komande i sece liniju do kraja komande
     static std::string commandName(std::string &line);
@@ -70,6 +75,12 @@ public:
 
     // sece liniju nakon '>' znaka i vraca fajl za redirect u obliku stringa
     static std::string redirectProcess(std::string &line, bool &doubleRedirect);
+
+    // broji koliko cevovoda (pipe) linija sadrzi, ukoliko nema vraca nulu
+    static bool pipeExist(const std::string &line);
+
+
+    static void pipeProcess(const std::string &line);
 
     // proverava da li ima nedozvoljenih karatkera i stavlja ^ ispod ukoliko ima
     // vraca true ako je sve u redu, vraca false ako je nasao barem jedan nedozvoljen karakter
