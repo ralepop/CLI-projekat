@@ -18,17 +18,10 @@ public:
     static size_t countingWords(const std::string &line){
         bool word = false;
         int i = 0;
-<<<<<<< HEAD
-
-        for(const char c : line){
-            if(std::isspace(c)) word = false;
-            else if(!word){
-=======
         
         for(const char c : line){
             if (std::isspace(c)) word = false;
             else if (!word){
->>>>>>> d5b13dd0366064184a45842bde4714bbc3028d94
                 i++;
                 word = true;
             }
