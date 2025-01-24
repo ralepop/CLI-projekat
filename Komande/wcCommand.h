@@ -7,21 +7,21 @@ class WcCommand : public Command
 {
 public:
 
-    WcCommand() : Command(true, true) {} // uzima argumente i uzima opt 
+    WcCommand() : Command(true, true){} // uzima argumente i uzima opt 
 
-    void execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) override;
+    void execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) override;
 
     std::string getName() const override {
         return "wc";
     }
 
-    static size_t countingWords(const std::string &line) {
+    static size_t countingWords(const std::string &line){
         bool word = false;
         int i = 0;
-        for (const char c : line) {
-            if (std::isspace(c)) {
-                word = false;
-            } else if (!word) {
+        
+        for(const char c : line){
+            if (std::isspace(c)) word = false;
+            else if (!word){
                 i++;
                 word = true;
             }
@@ -29,9 +29,9 @@ public:
         return i;
     }
 
-    static void processOptW(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect);
+    static void processOptW(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult);
 
-    static void processOptC(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect);
+    static void processOptC(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult);
 };
 
 #endif
