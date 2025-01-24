@@ -39,7 +39,7 @@ public:
     // skida quotation sa pocetka i kraja
     static void stripQuo(std::string &line);
 
-    // proverava da li je uneti string fajl (.txt fajl)
+    // proverava da li je uneti string fajl(.txt fajl)
     static bool checkIfFile(std::string &line, const std::string &filetype);
 
     // smesta sadrzaj fajla u string
@@ -61,7 +61,7 @@ public:
     // vraca naziv komande i sece liniju do kraja komande
     static std::string commandName(std::string &line);
 
-    // vraca naziv -opt (ako postoji) i sece liniju do kraja -opt
+    // vraca naziv -opt(ako postoji) i sece liniju do kraja -opt
     static char opt(std::string &line);
 
     // proverava da li je unos u nekoliko redova
@@ -70,13 +70,13 @@ public:
     // proverava da li u stringu ima razmaka
     static bool whitespaceExist(const std::string &line);
 
-    // proverava da li linija sadrzi preusmerenje (redirect)
+    // proverava da li linija sadrzi preusmerenje(redirect)
     static bool redirectExist(const std::string &line);
 
     // sece liniju nakon '>' znaka i vraca fajl za redirect u obliku stringa
     static std::string redirectProcess(std::string &line, bool &doubleRedirect);
 
-    // broji koliko cevovoda (pipe) linija sadrzi, ukoliko nema vraca nulu
+    // broji koliko cevovoda(pipe) linija sadrzi, ukoliko nema vraca nulu
     static bool pipeExist(const std::string &line);
 
     // proverava da li ima nedozvoljenih karatkera i stavlja ^ ispod ukoliko ima

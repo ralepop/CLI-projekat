@@ -8,9 +8,9 @@ class TimeCommand : public Command
 {
 public:
 
-    TimeCommand() : Command(false) {} // false jer ne prima argumente
+    TimeCommand() : Command(false){} // false jer ne prima argumente
 
-    void execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) override;
+    void execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) override;
 
     std::string getName() const override {
         return "time";

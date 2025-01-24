@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iomanip> // setfill, setw
 
-void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
+void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
     
     const std::time_t t = std::time(nullptr); // vraca trenutno vreme
 
@@ -13,18 +13,18 @@ void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output
 
     std::string redirectFile;
     bool doubleRedirect = false;
-    if (redirectExist) {
+    if(redirectExist){
         redirectFile = redirectProcess(argument, doubleRedirect);
     }
 
-    if (redirectExist && !redirectFile.empty()) {
+    if(redirectExist && !redirectFile.empty()){
         std::ofstream file(redirectFile);
         file
             << std::setfill('0')
             << std::setw(2) << now->tm_hour << ':'
             << std::setw(2) << now->tm_min << ':'
             << std::setw(2) << now->tm_sec << '\n';
-    } else {
+    }else{
         output
             << std::setfill('0')
             << std::setw(2) << now->tm_hour << ':'

@@ -1,6 +1,6 @@
 #include "promptCommand.h"
 
-void PromptCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist) {
+void PromptCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
    return;
 }
