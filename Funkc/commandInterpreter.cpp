@@ -23,7 +23,7 @@ void CommandInterpreter::start(){
         else inputs.push_back(inputLine);
 
         std::ostringstream outputBuffer; // cuva izlaz komande
-        bool isFirst = true;
+        bool isFirst = true, isLast = false;
         std::string lastResult;
         std::ostream& output = (inputs.size() > 1) ? outputBuffer : std::cout;
         size_t start = 0, end;
@@ -33,6 +33,7 @@ void CommandInterpreter::start(){
             // proveravamo da li je prvi input u pitanju
             // ako jeste onda mora da sadrzi argument bez obzira da li ima cevovod ili ne
             if(isFirst && input != inputs[0]) isFirst = false;
+            if(!isLast && input == inputs.back()) isLast = true;
 
             std::istringstream inputStream(input);
             std::string commandName;
@@ -76,6 +77,13 @@ void CommandInterpreter::start(){
             bool rediExist = Command::redirectExist(input);
 
             command->execute(opt[1], arg, output, rediExist, lastResult);
+
+            if(isLast && inputs.size() > 1){
+                if(commandName == "echo"){
+                    std::cout << lastResult << '\n';
+                    break;
+                }
+            }
 
             end = outputBuffer.str().rfind('\n');
 

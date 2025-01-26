@@ -26,7 +26,7 @@ void WcCommand::execute(char &opt, std::string& argument, std::ostream& output, 
     if(isFile && !redirectExist){
         text = putIntoString(argument);
         if(text.empty()) return;
-    } else if(!pipeExist) text = argument;
+    }else if(!pipeExist) text = argument;
     else text = lastResult;
 
     // proveravamo valinost
@@ -34,7 +34,7 @@ void WcCommand::execute(char &opt, std::string& argument, std::ostream& output, 
     if(!newlineExist(text) && !pipeExist) valid = checkLine(text);
 
     if(!valid){
-        std::string errorLine = "wc " + std::string(1, opt) + " " + argument;
+        const std::string errorLine = "wc " + std::string(1, opt) + " " + argument;
         if(!isFile && errorHandling(errorLine)) output << "Error: Invalid input\n";
         return;
     }

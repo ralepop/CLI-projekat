@@ -8,50 +8,48 @@
 void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
     std::string redirectFile;
-
     bool doubleRedirect = false;
-    if(redirectExist){
-        redirectFile = redirectProcess(argument, doubleRedirect); // procesuiramo argument ako ima redirect znak
-    }
+
+    if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
+
+    bool pipeExist = !lastResult.empty() ? true : false;
+
+    // pamtimo unos u string text
+    std::string text;
 
     const bool isFile = checkIfFile(argument, "txt");
+
+    if(isFile && !redirectExist){
+        text = putIntoString(argument);
+        if(text.empty()) return;
+    }else if(!pipeExist) text = argument;
+    else text = lastResult;
+
+    // proveravamo valinost
     bool valid = true;
 
-    std::string text;
-    if(isFile){
-        text = putIntoString(argument);
-    }else{
-        text = argument;
+    if(!newlineExist(text) && !pipeExist) valid = checkLine(text);
+    
+
+    if(!valid){
+        // TODO: proveri da li ovde stavljati argument ili text
+        const std::string errorLine = "echo " + std::string(1, opt) + " " + argument;
+        if(!isFile && errorHandling(errorLine)) output << "Error: Invalid input\n";
+        return;
     }
 
-    if(!newlineExist(text)){
-        valid = checkLine(text); // proverava ako je uneta jedna linija
-    }
+    if(newlineExist(text)){
+        std::vector<std::string> lines;
+        splitNewline(text, lines); // ubacujemo linije u vektor lines
 
-    if(valid){
-        if(newlineExist(text)){ // ako je uneto vise linija
-            std::vector<std::string> lines;
-            splitNewline(text, lines); // ubacujemo linije u vektor lines
-
-            for(std::string &line : lines){
-                output << line << std::endl;
-            }
-
-        }else{ // ako je uneta samo jedna linija
-
-            if(redirectExist && !redirectFile.empty()){ // u fajl jer postoji redirect znak
-                std::ofstream file(redirectFile, std::ios::out);
-                file << text;
-                file.close();
-            }else{
-                output << text << std::endl;
-            }
+        for(std::string &line : lines){
+            output << line << std::endl;
         }
-
-    }else{
-        const std::string line = "echo " + argument;
-        if(errorHandling(line)){
-            output << "Error: Invalid input\n";
-        }
+    }else{ // ako je uneta samo jedna linija
+        if(redirectExist && !redirectFile.empty()){ // u fajl jer postoji redirect znak
+            std::ofstream file(redirectFile, std::ios::out);
+            file << text;
+            file.close();
+        }else output << text << std::endl;
     }
 }
