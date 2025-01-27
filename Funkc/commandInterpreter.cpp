@@ -76,10 +76,6 @@ void CommandInterpreter::start(){
 
             bool rediExist = Command::redirectExist(input);
 
-            if(command->getName() == "head"){
-                command->execute(opt, arg, output, rediExist, lastResult);
-            }
-
             command->execute(opt, arg, output, rediExist, lastResult);
 
             if(isLast && inputs.size() > 1){

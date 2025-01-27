@@ -31,7 +31,7 @@ void WcCommand::execute(std::string &opt, std::string &argument, std::ostream &o
 
     // proveravamo valinost
     bool valid = true;
-    if(!newlineExist(text) && !pipeExist) valid = checkLine(text);
+    if(!newlineExist(text) && !pipeExist && !isFile) valid = checkLine(text);
 
     if(!valid){
         const std::string errorLine = "wc " + opt + " " + argument;
