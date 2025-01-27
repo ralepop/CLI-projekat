@@ -28,7 +28,7 @@ public:
 
     // std::ostream &output prima referencu na izlazni tok
     // output moze da bude std::cout, fajl ili neka druga vrsta podataka
-    virtual void execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) = 0;
+    virtual void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) = 0;
 
     // delimo unos na nove linije i svaku liniju ubacujemo u vektor lines
     static void splitNewline(const std::string &line, std::vector<std::string> &lines);

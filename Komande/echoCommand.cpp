@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
     std::string redirectFile;
     bool doubleRedirect = false;
@@ -33,7 +33,7 @@ void EchoCommand::execute(char &opt, std::string &argument, std::ostream &output
 
     if(!valid){
         // TODO: proveri da li ovde stavljati argument ili text
-        const std::string errorLine = "echo " + std::string(1, opt) + " " + argument;
+        const std::string errorLine = "echo " + opt + " " + argument;
         if(!isFile && errorHandling(errorLine)) output << "Error: Invalid input\n";
         return;
     }

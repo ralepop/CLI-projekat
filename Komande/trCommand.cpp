@@ -4,12 +4,7 @@
 #include <sstream>
 #include <string>
 
-void TrCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
-
-    // output = "todor petkovic"
-    // input = tr "ted" with "rale"
-    // argument = "ted" with "rale"
-    // rezultat = "rolor parkovic"
+void TrCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
     // uzimamo iz outputa da bismo uzeli poslednji output
     std::string mainStr = dynamic_cast<std::ostringstream&>(output).str();

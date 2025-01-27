@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-void TouchCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void TouchCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
 
     if(newlineExist(argument)){ // ako je uneto vise linija

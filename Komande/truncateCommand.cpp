@@ -3,7 +3,7 @@
 #include "command.h"
 #include <fstream>
 
-void TruncateCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void TruncateCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
     if(newlineExist(argument)){ // ako je uneto vise linija
 

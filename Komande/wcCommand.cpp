@@ -5,9 +5,9 @@
 #include <vector>
 #include <ostream>
 
-void WcCommand::execute(char &opt, std::string& argument, std::ostream& output, bool &redirectExist, std::string &lastResult){
+void WcCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
     // provera za -opt
-    if(opt != 'w' && opt != 'c'){
+    if(opt != "-w" && opt != "-c"){
         output << "Error: Invalid option\n";
         return;
     }
@@ -34,14 +34,14 @@ void WcCommand::execute(char &opt, std::string& argument, std::ostream& output, 
     if(!newlineExist(text) && !pipeExist) valid = checkLine(text);
 
     if(!valid){
-        const std::string errorLine = "wc " + std::string(1, opt) + " " + argument;
+        const std::string errorLine = "wc " + opt + " " + argument;
         if(!isFile && errorHandling(errorLine)) output << "Error: Invalid input\n";
         return;
     }
 
     // procesuiramo za odredjeni -opt
-    if(opt == 'w') processOptW(text, output, redirectFile, doubleRedirect, lastResult);
-    else if(opt == 'c') processOptC(text, output, redirectFile, doubleRedirect, lastResult);
+    if(opt == "-w") processOptW(text, output, redirectFile, doubleRedirect, lastResult);
+    else if(opt == "-c") processOptC(text, output, redirectFile, doubleRedirect, lastResult);
 }
 
 void WcCommand::processOptW(std::string& text, std::ostream& output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult){

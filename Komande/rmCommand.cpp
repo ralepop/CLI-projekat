@@ -3,7 +3,7 @@
 #include "command.h"
 #include <filesystem>
 
-void RmCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void RmCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
     if(newlineExist(argument)){ // ako je uneto vise linija
 

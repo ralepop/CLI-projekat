@@ -31,4 +31,8 @@ add_executable(CLI_projekat
         Komande/rmCommand.h
         Komande/trCommand.cpp
         Komande/trCommand.h
+        Komande/headCommand.cpp
+        Komande/headCommand.h
+        Komande/batchCommand.h
+        Komande/batchCommand.cpp
         main.cpp)

@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iomanip> // std::put_time
 
-void DateCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void DateCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
     
     const std::time_t t = std::time(nullptr); // vraca trenutno vreme
 

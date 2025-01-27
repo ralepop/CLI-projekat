@@ -4,6 +4,7 @@
 
 #include "dateCommand.h"
 #include "echoCommand.h"
+#include "headCommand.h"
 #include "timeCommand.h"
 #include "touchCommand.h"
 #include "wcCommand.h"
@@ -23,5 +24,6 @@ std::unique_ptr<Command> CommandFactory::createCommand(const std::string &comman
     if(commandName == "truncate") return std::make_unique<TruncateCommand>();
     if(commandName == "rm") return std::make_unique<RmCommand>();
     if(commandName == "tr") return std::make_unique<TrCommand>();
+    if(commandName == "head") return std::make_unique<HeadCommand>();
     return nullptr; // nepoznata komanda
 }

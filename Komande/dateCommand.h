@@ -12,7 +12,7 @@ public:
 
     // referenca: https://en.cppreference.com/w/cpp/chrono/c/tm
     
-    void execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) override;
+    void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) override;
     
 
     std::string getName() const override {

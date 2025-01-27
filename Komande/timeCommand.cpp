@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iomanip> // setfill, setw
 
-void TimeCommand::execute(char &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void TimeCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
     
     const std::time_t t = std::time(nullptr); // vraca trenutno vreme
 
