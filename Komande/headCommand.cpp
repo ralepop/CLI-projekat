@@ -41,11 +41,9 @@ void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream 
     opt = opt.substr(2); // uzimamo deo nakon "-n"
 
     if(opt.empty() || opt.length() > 5 || !std::all_of(opt.begin(), opt.end(), ::isdigit)) output << "Error: Invalid input.\n";
-    std::string line = "";
     int num = std::stoi(opt), j = 0; // TODO: dodati objasnjenje
     bool wasNewline = false;
     for(size_t i = 0; i < text.size(); ++i){
-        char a = text[i];
 
         if(text[i] == '\n'){
             wasNewline = true;
@@ -55,7 +53,6 @@ void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream 
         }else wasNewline = false;
 
         if(!wasNewline) output << text[i];
-        if(!wasNewline) line += text[i];
     }
 
 }
