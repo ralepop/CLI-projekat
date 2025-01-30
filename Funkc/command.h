@@ -36,9 +36,6 @@ public:
     // proverava da li je string unet na validan nacin
     static bool checkLine(std::string &line);
 
-    // skida quotation sa pocetka i kraja
-    static void stripQuo(std::string &line);
-
     // proverava da li je uneti string fajl(.txt fajl)
     static bool checkIfFile(std::string &line, const std::string &filetype);
 
@@ -58,17 +55,8 @@ public:
     // vector[2] = "wc -c > time.txt"
     static std::vector<std::string> splitString(const std::string &line, char c);
 
-    // vraca naziv komande i sece liniju do kraja komande
-    static std::string commandName(std::string &line);
-
-    // vraca naziv -opt(ako postoji) i sece liniju do kraja -opt
-    static char opt(std::string &line);
-
     // proverava da li je unos u nekoliko redova
     static bool newlineExist(const std::string &line);
-
-    // proverava da li u stringu ima razmaka
-    static bool whitespaceExist(const std::string &line);
 
     // proverava da li linija sadrzi preusmerenje(redirect)
     static bool redirectExist(const std::string &line);

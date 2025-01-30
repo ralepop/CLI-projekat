@@ -15,8 +15,7 @@ bool Command::newlineExist(const std::string &line){
 }
 
 void Command::splitNewline(const std::string &line, std::vector<std::string> &lines){
-    size_t start = 0;
-    size_t end = line.find('\n');
+    size_t start = 0, end = line.find('\n');
 
     while(end != std::string::npos){
         lines.push_back(line.substr(start, end - start));
@@ -32,13 +31,12 @@ bool Command::checkLine(std::string &line){
 
     if(line.empty()) return false;
 
-    const size_t firstQuo = line.find_first_of('"');
-    const size_t lastQuo = line.find_last_of('"');
+    const size_t firstQuo = line.find_first_of('"'), lastQuo = line.find_last_of('"');
 
     // ukoliko nema dva navodnika
     if(firstQuo == std::string::npos || lastQuo == std::string::npos || firstQuo == lastQuo){
-        for(const char ch : line){
-            if(ch == ' ') return false;
+        for(const char &ch : line){
+            if(std::isspace(ch)) return false;
         }
         return true;
     }
@@ -51,10 +49,6 @@ bool Command::checkLine(std::string &line){
     line = argument;
 
     return true;
-}
-
-void Command::stripQuo(std::string &line){
-    if(line.size() >= 2) line = line.substr(1, line.size() - 2);
 }
 
 bool Command::checkIfFile(std::string &line, const std::string& filetype){
@@ -119,7 +113,7 @@ void Command::processCommand(std::vector<std::string> &inputs, std::string &inpu
         const auto command = CommandFactory::createCommand(commandName);
 
         if(!command){
-            if(Command::errorHandling(input)) std::cout << "Error: Unknown command \"" << commandName << "\".\n";
+            if(Command::errorHandling(input)) std::cout << "Unknown command: \"" << commandName << "\".\n";
             continue;
         }
 
@@ -178,13 +172,11 @@ void Command::processCommand(std::vector<std::string> &inputs, std::string &inpu
 std::vector<std::string> Command::splitString(const std::string &line, char c){
     std::vector<std::string> result;
     std::string temp;
-    size_t start = 0;
-    size_t end = 0;
+    size_t start = 0, end = 0;
 
     while((end = line.find(c, start)) != std::string::npos ){
         temp = line.substr(start, end - start);
         stripWhitespace(temp);
-
         result.push_back(temp);
         start = end + 1;
     }
@@ -211,43 +203,6 @@ void Command::createFile(std::string &filename, std::ostream &output){
     if(!file) output << "Error: Could not create the file " << filename << ".\n";
 }
 
-std::string Command::commandName(std::string &line){
-
-    std::size_t pos = line.find_first_of(" ");
-
-    if(pos != std::string::npos){
-        std::string command = line.substr(0, pos);
-        line = line.substr(pos + 1);
-        return command;
-    }
-
-    std::string command = line;
-    line.clear();
-    return command;
-}
-
-char Command::opt(std::string &line){
-    
-    std::size_t pos = line.find('-');
-
-    // proveravamo da li je pretraga uspesna i da li postoji barem jedan karakter nakon pos
-    if(pos != std::string::npos && pos + 1 < line.size()){
-        const char opt = line[pos + 1];
-        line = line.substr(pos + 2);
-        return opt;
-    }
-    
-    return '\0';
-}
-
-bool Command::whitespaceExist(const std::string &line){
-    for(const char c : line){
-        if(std::isspace(c)) return true;
-    }
-
-    return false;
-}
-
 bool Command::redirectExist(const std::string &line){
     return line.find('>') != std::string::npos;
 }
@@ -258,10 +213,11 @@ std::string Command::redirectProcess(std::string &line, bool &doubleRedirect){
 
     if(posTxt != std::string::npos){
         size_t pos = line.rfind(">>", posTxt);
+        doubleRedirect = (pos != std::string::npos) ? true : false;
 
-        doubleRedirect = pos != std::string::npos ? true : false;
         if(!doubleRedirect) pos = line.rfind(">", posTxt);
         std::string redirectFile = line.substr(pos + (doubleRedirect ? 2 : 1), posTxt - pos + 4);
+
         line = line.substr(0, pos);
         stripWhitespace(line);
         stripWhitespace(redirectFile);
@@ -278,20 +234,19 @@ bool Command::pipeExist(const std::string &line){
 
 bool Command::errorHandling(const std::string &line){
     const std::string validSymbols = "-\"<>.|: ";
-    bool fine = true;
+    bool isFine = true;
 
     std::vector<size_t> errorPositions;
 
     for(size_t i = 0; i < line.length(); ++i){
-        char c = line[i];
 
+        char c = line[i];
         if(!std::isalnum(c) && validSymbols.find(c) == std::string::npos) errorPositions.push_back(i);
     }
 
     if(!errorPositions.empty()){
-        std::cout << "Error - unexpected characters:\n";
-        std::cout << line << '\n';
-        fine = false;
+        std::cout << "Error - unexpected characters:\n" << line << '\n';
+        isFine = false;
 
         for(size_t i = 0; i < line.length(); ++i){
             std::cout << (std::find(errorPositions.begin(), errorPositions.end(), i) != errorPositions.end() ? '^' : ' ');
@@ -299,5 +254,5 @@ bool Command::errorHandling(const std::string &line){
         std::cout << '\n';
     }
 
-    return fine;
+    return isFine;
 }
