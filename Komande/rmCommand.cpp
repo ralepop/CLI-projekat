@@ -1,6 +1,5 @@
 #include "rmCommand.h"
 
-#include "command.h"
 #include <filesystem>
 
 void RmCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
@@ -12,26 +11,17 @@ void RmCommand::execute(std::string &opt, std::string &argument, std::ostream &o
 
         for(std::string &file : lines){
 
-            if(!errorHandling(file)){
-                continue;
-            }
+            if(!errorHandling(file)) continue;
 
-            if(!std::filesystem::remove(file)){
-                output << "Error: file " << file << " not found\n";
-            }
-
+            if(!std::filesystem::remove(file)) output << "Error: file " << file << " not found\n";
 
         }
 
     }else{ // ako je uneta samo jedna linija
 
-        if(!errorHandling(argument)){
-            return;
-        }
+        if(!errorHandling(argument)) return;
 
-        if(!std::filesystem::remove(argument)){
-            output << "Error: no file found\n";
-        }
+        if(!std::filesystem::remove(argument)) output << "Error: no file found\n";
 
     }
 
