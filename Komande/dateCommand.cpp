@@ -13,15 +13,12 @@ void DateCommand::execute(std::string &opt, std::string &argument, std::ostream 
 
     std::string redirectFile;
     bool doubleRedirect = false;
-    if(redirectExist){
-        redirectFile = redirectProcess(argument, doubleRedirect);
-    }
+    
+    if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
 
     if(redirectExist && !redirectFile.empty()){
         std::ofstream file(redirectFile);
         file << std::put_time(now, "%d.%m.%Y") << ".\n";
-    }else {
-        output << std::put_time(now, "%d.%m.%Y") << ".\n";
-    }
+    }else output << std::put_time(now, "%d.%m.%Y") << ".\n";
 
 }

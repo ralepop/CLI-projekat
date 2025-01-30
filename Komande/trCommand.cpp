@@ -1,6 +1,5 @@
 #include "trCommand.h"
 
-#include "command.h"
 #include <sstream>
 #include <string>
 
@@ -17,18 +16,10 @@ void TrCommand::execute(std::string &opt, std::string &argument, std::ostream &o
     std::string with = argument.substr(thirdQuo + 1, fourthQuo - thirdQuo - 1); // rale
     argument = argument.substr(firstQuo + 1, secondQuo - firstQuo - 1); // ted
 
-
     for(size_t i = 0; i < mainStr.length(); ++i){
         size_t pos = argument.find(mainStr[i]);
-        if(pos != std::string::npos){
-            mainStr[i] = with[pos >= with.length() ? with.length() - 1 : pos];
-        }
+        if(pos != std::string::npos) mainStr[i] = with[pos >= with.length() ? with.length() - 1 : pos];
     }
 
-
-
     output << mainStr;
-
-
-
 }

@@ -11,9 +11,7 @@ public:
 
     void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) override;
 
-    std::string getName() const override {
-        return "truncate";
-    }
+    std::string getName() const override { return "truncate"; }
 
 };
 

@@ -4,8 +4,7 @@
 #include <iostream>
 #include <string>
 
-int main()
-{
+int main() {
     std::string prompt = "$";
     CommandFactory commandFactory;
 
@@ -17,6 +16,3 @@ int main()
 
     return 0;
 }
-
-
-

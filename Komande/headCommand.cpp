@@ -12,23 +12,18 @@ void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream 
         return;
     }
 
-    std::string redirectFile;
-    bool doubleRedirect = false;
+    std::string redirectFile, text;
+    bool doubleRedirect = false, valid = true, pipeExist = !lastResult.empty() ? true : false, wasNewline = false;
 
     if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
 
-    bool pipeExist = !lastResult.empty() ? true : false;
+    const bool isFile  = checkIfFile(argument, "txt");
 
-    std::string text;
-
-    bool isFile  = checkIfFile(argument, "txt");
     if(isFile && !redirectExist){
         text = putIntoString(argument);
         if(text.empty()) return;
     }else if(!pipeExist) text = argument;
     else text = lastResult;
-
-    bool valid = true;
 
     if(!newlineExist(text) && !pipeExist && !isFile) valid = checkLine(text);
 
@@ -41,8 +36,9 @@ void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream 
     opt = opt.substr(2); // uzimamo deo nakon "-n"
 
     if(opt.empty() || opt.length() > 5 || !std::all_of(opt.begin(), opt.end(), ::isdigit)) output << "Error: Invalid input.\n";
-    int num = std::stoi(opt), j = 0; // TODO: dodati objasnjenje
-    bool wasNewline = false;
+
+    int num = std::stoi(opt), j = 0;
+
     for(size_t i = 0; i < text.size(); ++i){
 
         if(text[i] == '\n'){
@@ -54,5 +50,4 @@ void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream 
 
         if(!wasNewline) output << text[i];
     }
-
 }

@@ -3,17 +3,14 @@
 
 #include "../Funkc/command.h"
 
-class WcCommand : public Command
-{
+class WcCommand : public Command {
 public:
 
     WcCommand() : Command(true, true){} // uzima argumente i uzima opt 
 
     void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) override;
 
-    std::string getName() const override {
-        return "wc";
-    }
+    std::string getName() const override { return "wc"; }
 
     static size_t countingWords(const std::string &line){
         bool word = false;

@@ -14,7 +14,6 @@
 #include "trCommand.h"
 #include "truncateCommand.h"
 
-
 std::unique_ptr<Command> CommandFactory::createCommand(const std::string &commandName){
     if(commandName == "echo") return std::make_unique<EchoCommand>();
     if(commandName == "time") return std::make_unique<TimeCommand>();

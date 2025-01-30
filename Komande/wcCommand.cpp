@@ -6,31 +6,27 @@
 #include <ostream>
 
 void WcCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+    
     // provera za -opt
     if(opt != "-w" && opt != "-c"){
         output << "Error: Invalid option\n";
         return;
     }
 
-    std::string redirectFile;
-    bool doubleRedirect = false;
+    std::string redirectFile, text;
+    bool doubleRedirect = false, valid = true, pipeExist = !lastResult.empty() ? true : false;
 
     if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
 
-    bool pipeExist = !lastResult.empty() ? true : false;
-
     // pamtimo unos u string text
-    std::string text;
+    const bool isFile = checkIfFile(argument, "txt");
 
-    bool isFile = checkIfFile(argument, "txt");
     if(isFile && !redirectExist){
         text = putIntoString(argument);
         if(text.empty()) return;
     }else if(!pipeExist) text = argument;
     else text = lastResult;
 
-    // proveravamo valinost
-    bool valid = true;
     if(!newlineExist(text) && !pipeExist && !isFile) valid = checkLine(text);
 
     if(!valid){
@@ -60,18 +56,13 @@ void WcCommand::processOptW(std::string& text, std::ostream& output, std::string
     }else{
         // kada je uneta jedna linija
         if(!redirectFile.empty()){
-            if(doubleRedirect){
-                std::ofstream file(redirectFile, std::ios::app); // otvaramo u modu dodavanja
-                file << '\n' << countingWords(text);
-                file.close();
-            }else{
-                std::ofstream file(redirectFile, std::ios::out); // otvaramo u modu skroz novog fajla
-                file << countingWords(text);
-                file.close();
-            }
-        }else{
-            output << countingWords(text) << '\n';
-        }
+
+            std::ofstream file(redirectFile, doubleRedirect ? std::ios::app : std::ios::out);
+            if(doubleRedirect) file << '\n';
+            file << text.length();
+            file.close();
+
+        }else output << countingWords(text) << '\n';
     }
 }
 
@@ -91,17 +82,12 @@ void WcCommand::processOptC(std::string& text, std::ostream& output, std::string
     }else{
         // kada je uneta jedna linija
         if(!redirectFile.empty()){
-            if(doubleRedirect){
-                std::ofstream file(redirectFile, std::ios::app); // otvaramo u modu dodavanja
-                file << '\n' << text.length();
-                file.close();
-            }else{
-                std::ofstream file(redirectFile, std::ios::out); // otvaramo u modu skroz novog fajla
-                file << text.length();
-                file.close();
-            }
-        }else{
-            output << text.length() << '\n';
-        }
+
+            std::ofstream file(redirectFile, doubleRedirect ? std::ios::app : std::ios::out);
+            if(doubleRedirect) file << '\n';
+            file << text.length();
+            file.close();
+
+        }else output << text.length() << '\n';
     }
 }

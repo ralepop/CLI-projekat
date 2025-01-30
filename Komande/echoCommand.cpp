@@ -6,15 +6,10 @@
 
 void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
-    std::string redirectFile;
-    bool doubleRedirect = false;
+    std::string redirectFile, text;
+    bool doubleRedirect = false, valid = true, pipeExist = !lastResult.empty() ? true : false;
 
     if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
-
-    bool pipeExist = !lastResult.empty() ? true : false;
-
-    // pamtimo unos u string text
-    std::string text;
 
     const bool isFile = checkIfFile(argument, "txt");
 
@@ -24,11 +19,7 @@ void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream 
     }else if(!pipeExist) text = argument;
     else text = lastResult;
 
-    // proveravamo valinost
-    bool valid = true;
-
     if(!newlineExist(text) && !pipeExist) valid = checkLine(text);
-    
 
     if(!valid){
         // TODO: proveri da li ovde stavljati argument ili text

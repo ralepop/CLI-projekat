@@ -10,7 +10,6 @@ class CommandInterpreter {
 private:
 
     CommandFactory &commandFactory;
-
     std::string prompt; // korisnik ga moze menjati
 
 public:
