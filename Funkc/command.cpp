@@ -1,10 +1,13 @@
 #include "command.h"
+#include "commandFactory.h"
 
 #include <cctype>
 #include <cstddef>
+#include <ostream>
 #include <string>
 #include <fstream>
 #include <vector>
+#include <sstream>
 
 
 bool Command::newlineExist(const std::string &line){
@@ -20,6 +23,7 @@ void Command::splitNewline(const std::string &line, std::vector<std::string> &li
         start = end + 1;
         end = line.find('\n', start); // nalazimo sledeci '\n'
     }
+    
     lines.push_back(line.substr(start, line.length() - start));
 }
 
@@ -33,7 +37,6 @@ bool Command::checkLine(std::string &line){
 
     // ukoliko nema dva navodnika
     if(firstQuo == std::string::npos || lastQuo == std::string::npos || firstQuo == lastQuo){
-
         for(const char ch : line){
             if(ch == ' ') return false;
         }
@@ -48,7 +51,6 @@ bool Command::checkLine(std::string &line){
     line = argument;
 
     return true;
-
 }
 
 void Command::stripQuo(std::string &line){
@@ -63,6 +65,7 @@ bool Command::checkIfFile(std::string &line, const std::string& filetype){
         line = line.substr(pos + 1, line.length()); // skidamo znak '<'
         stripWhitespace(line);
     }
+
     return line.ends_with('.' + filetype);
 }
 
@@ -94,7 +97,82 @@ void Command::stripWhitespace(std::string &line){
 
     if(left == right) line = line.substr(left, 1);
     else line = line.substr(left, right - left + 1);
-   
+}
+
+void Command::processCommand(std::vector<std::string> &inputs, std::string &inputLine, std::string &prompt, std::ostream &output, std::ostringstream &outputBuffer){
+
+    bool isFirst = true, isLast = false;
+    std::string lastResult;
+    size_t start = 0, end;
+
+    for(const std::string &input : inputs){
+
+        // proveravamo da li je prvi input u pitanju
+        // ako jeste onda mora da sadrzi argument bez obzira da li ima cevovod ili ne
+        if(isFirst && input != inputs[0]) isFirst = false;
+        if(!isLast && input == inputs.back()) isLast = true;
+
+        std::istringstream inputStream(input);
+        std::string commandName;
+        inputStream >> commandName;
+
+        const auto command = CommandFactory::createCommand(commandName);
+
+        if(!command){
+            if(Command::errorHandling(input)) std::cout << "Error: Unknown command \"" << commandName << "\".\n";
+            continue;
+        }
+
+        std::string opt, arg;
+
+        if(command->doesTakeOpt() && command->getName() != "tr"){
+            inputStream >> opt;
+            if(opt.empty()){
+                std::cout << "Erorr: Invalid -opt\n";
+                continue;
+            }
+        }
+
+        std::getline(inputStream, arg);
+        Command::stripWhitespace(arg);
+
+        // ako treba da se unese vise linija
+        if(arg.empty() && command->doesTakeArg() && !Command::pipeExist(inputLine)){
+            std::string additionalLine;
+            while(true){
+                std::getline(std::cin, additionalLine);
+                if(additionalLine.empty()) break;
+                arg += (arg.empty() ? "" : "\n") + additionalLine;
+            }
+        }
+
+        // posebni slucajevi komandi
+        if(command->getName() == "prompt"){
+            if(!arg.empty()) prompt = arg;
+            continue;
+        }else if(command->getName() == "batch"){
+            std::vector<std::string> commands = Command::splitString(arg, '\n');
+            processCommand(commands, inputLine, prompt, output, outputBuffer);
+        }
+
+        bool rediExist = Command::redirectExist(input);
+
+        command->execute(opt, arg, output, rediExist, lastResult);
+
+        if(isLast && inputs.size() > 1){
+            if(command->getName() == "echo"){
+                std::cout << lastResult << '\n';
+                break;
+            }
+        }
+
+        end = outputBuffer.str().rfind('\n');
+
+        if(end != std::string::npos){
+            lastResult = outputBuffer.str().substr(start, end - start);
+            start = end + 1;
+        }
+    }
 }
 
 std::vector<std::string> Command::splitString(const std::string &line, char c){
@@ -131,7 +209,6 @@ void Command::createFile(std::string &filename, std::ostream &output){
     std::ofstream file(filename);
 
     if(!file) output << "Error: Could not create the file " << filename << ".\n";
-
 }
 
 std::string Command::commandName(std::string &line){
@@ -159,6 +236,7 @@ char Command::opt(std::string &line){
         line = line.substr(pos + 2);
         return opt;
     }
+    
     return '\0';
 }
 
@@ -181,24 +259,16 @@ std::string Command::redirectProcess(std::string &line, bool &doubleRedirect){
     if(posTxt != std::string::npos){
         size_t pos = line.rfind(">>", posTxt);
 
-        if(pos != std::string::npos){
-            std::string redirectFile = line.substr(pos + 2, posTxt - pos + 4);
-            doubleRedirect = true;
-            line = line.substr(0, pos);
-            stripWhitespace(line);
-            stripWhitespace(redirectFile);
-            return redirectFile;
-        }
+        doubleRedirect = pos != std::string::npos ? true : false;
+        if(!doubleRedirect) pos = line.rfind(">", posTxt);
+        std::string redirectFile = line.substr(pos + (doubleRedirect ? 2 : 1), posTxt - pos + 4);
+        line = line.substr(0, pos);
+        stripWhitespace(line);
+        stripWhitespace(redirectFile);
 
-        pos = line.rfind('>', posTxt);
-        if(pos != std::string::npos){
-            std::string redirectFile = line.substr(pos + 1, posTxt - pos + 4);
-            line = line.substr(0, pos);
-            stripWhitespace(line);
-            stripWhitespace(redirectFile);
-            return redirectFile;
-        }
+        return redirectFile;
     }
+
     return "";
 }
 
@@ -224,10 +294,10 @@ bool Command::errorHandling(const std::string &line){
         fine = false;
 
         for(size_t i = 0; i < line.length(); ++i){
-            std::cout <<(std::find(errorPositions.begin(), errorPositions.end(), i) != errorPositions.end() ? '^' : ' ');
+            std::cout << (std::find(errorPositions.begin(), errorPositions.end(), i) != errorPositions.end() ? '^' : ' ');
         }
         std::cout << '\n';
     }
-    return fine;
 
+    return fine;
 }

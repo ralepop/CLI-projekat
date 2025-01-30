@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "batchCommand.h"
 #include "dateCommand.h"
 #include "echoCommand.h"
 #include "headCommand.h"
@@ -25,5 +26,6 @@ std::unique_ptr<Command> CommandFactory::createCommand(const std::string &comman
     if(commandName == "rm") return std::make_unique<RmCommand>();
     if(commandName == "tr") return std::make_unique<TrCommand>();
     if(commandName == "head") return std::make_unique<HeadCommand>();
+    if(commandName == "batch") return std::make_unique<BatchCommand>();
     return nullptr; // nepoznata komanda
 }

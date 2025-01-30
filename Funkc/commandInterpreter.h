@@ -24,9 +24,7 @@ public:
     // pokrece glavnu petlju za unos i izvrsavanje komandi
     void start();
 
-    void setPrompt(const std::string &p){
-        prompt = p;
-    }
+    inline void setPrompt(const std::string &p) { prompt = p; }
 
 };
 

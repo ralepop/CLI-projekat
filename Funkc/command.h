@@ -83,14 +83,12 @@ public:
     // vraca true ako je sve u redu, vraca false ako je nasao barem jedan nedozvoljen karakter
     static bool errorHandling(const std::string &line);
 
+    // procesuira unos i stvara komandu
+    static void processCommand(std::vector<std::string> &inputs, std::string &inputLine, std::string &prompt, std::ostream &output, std::ostringstream &outputBuffer);
 
-    bool doesTakeArg() const {
-        return takesArg;
-    }
+    inline bool doesTakeArg() const { return takesArg; }
 
-    bool doesTakeOpt() const {
-        return takesOpt;
-    }
+    inline bool doesTakeOpt() const { return takesOpt; }
 
     // destruktor
     virtual ~Command() = default;
