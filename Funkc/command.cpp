@@ -209,7 +209,7 @@ bool Command::redirectExist(const std::string &line){
 
 std::string Command::redirectProcess(std::string &line, bool &doubleRedirect){
 
-    const size_t posTxt = line.find(".txt");
+    const size_t posTxt = line.rfind(".txt");
 
     if(posTxt != std::string::npos){
         size_t pos = line.rfind(">>", posTxt);

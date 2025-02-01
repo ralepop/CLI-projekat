@@ -13,7 +13,7 @@ void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream 
 
     const bool isFile = checkIfFile(argument, "txt");
 
-    if(isFile && !redirectExist){
+    if(isFile){
         text = putIntoString(argument);
         if(text.empty()) return;
     }else if(!pipeExist) text = argument;
