@@ -4,6 +4,7 @@
 #include "../Funkc/command.h"
 
 class WcCommand : public Command {
+    
 public:
 
     WcCommand() : Command(true, true){} // uzima argumente i uzima opt 

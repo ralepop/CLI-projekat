@@ -59,6 +59,7 @@ void WcCommand::processOptW(std::string& text, std::ostream& output, std::string
         file << (newlineExist(text) ? i : countingWords(text));
         file.close();
     }else output << (newlineExist(text) ? i : countingWords(text));
+    std::cout << '\n';
 }
 
 void WcCommand::processOptC(std::string& text, std::ostream& output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult){
@@ -80,4 +81,5 @@ void WcCommand::processOptC(std::string& text, std::ostream& output, std::string
         file << (newlineExist(text) ? i : text.length());
         file.close();
     }else output << (newlineExist(text) ? i : text.length());
+    std::cout << '\n';
 }

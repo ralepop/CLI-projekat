@@ -20,10 +20,10 @@ public:
     prompt(t_prompt)
     {};
 
+    inline void setPrompt(const std::string &p) { prompt = p; }
+
     // pokrece glavnu petlju za unos i izvrsavanje komandi
     void start();
-
-    inline void setPrompt(const std::string &p) { prompt = p; }
 
 };
 
