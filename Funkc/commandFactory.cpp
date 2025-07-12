@@ -1,7 +1,5 @@
 #include "commandFactory.h"
 
-#include <memory>
-
 #include "batchCommand.h"
 #include "dateCommand.h"
 #include "echoCommand.h"

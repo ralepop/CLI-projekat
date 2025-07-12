@@ -1,14 +1,6 @@
 #include "command.h"
 #include "commandFactory.h"
 
-#include <cctype>
-#include <cstddef>
-#include <ostream>
-#include <string>
-#include <fstream>
-#include <vector>
-#include <sstream>
-
 bool Command::checkIfFile(std::string &line, const std::string& filetype){
 
     // Ako je duzina stringa 'line' manja od minimalne potrebne duzine vraca false

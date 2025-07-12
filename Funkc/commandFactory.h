@@ -3,6 +3,8 @@
 
 #include "command.h"
 
+#include <memory>
+
 class CommandFactory {
 
 public:

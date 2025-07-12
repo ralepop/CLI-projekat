@@ -3,6 +3,14 @@
 
 #include <iostream>
 #include <string>
+#include <cctype>
+#include <cstddef>
+#include <ostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <sstream>
+#include <algorithm>
 
 const int MAX_LENGTH = 512;
 
