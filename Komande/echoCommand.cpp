@@ -19,7 +19,7 @@ void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream 
     }else if(!pipeExist) text = argument;
     else text = lastResult;
 
-    if(!newlineExist(text) && !pipeExist) valid = checkLine(text);
+    if(!newlineExist(text) && !pipeExist && !isFile) valid = checkLine(text);
 
     if(!valid){
         // TODO: proveri da li ovde stavljati argument ili text
@@ -28,7 +28,7 @@ void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream 
         return;
     }
 
-    if(newlineExist(text)){
+    if(newlineExist(text) && !redirectExist){
         std::vector<std::string> lines;
         splitNewline(text, lines); // ubacujemo linije u vektor lines
 
@@ -39,6 +39,11 @@ void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream 
         if(redirectExist && !redirectFile.empty()){ // u fajl jer postoji redirect znak
             std::ofstream file(redirectFile, std::ios::out);
             file << text;
+            output << text;
+            if(doubleRedirect){
+                output << text << std::endl;
+                file << text;
+            }else output << std::endl;
             file.close();
         }else output << text << std::endl;
     }

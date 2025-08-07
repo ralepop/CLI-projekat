@@ -12,8 +12,6 @@
 #include <sstream>
 #include <algorithm>
 
-const int MAX_LENGTH = 512;
-
 // klasa Command predstavlja osnovnu strukturu svih komandi
 
 class Command {

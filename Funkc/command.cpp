@@ -93,12 +93,15 @@ std::string Command::putIntoString(const std::string& line){
     }
 
     std::string text, temp;
+    size_t counter = 0;
 
     while(std::getline(file, temp)){
         text += temp + '\n';
+        counter++;
     }
 
-    return text;
+    if(counter == 1) return text.substr(0, text.length() - 1);
+    else return text;
 }
 
 std::string Command::redirectProcess(std::string &line, bool &doubleRedirect){
@@ -205,7 +208,8 @@ void Command::processCommand(std::vector<std::string> &inputs, std::string &inpu
 
         // posebni slucajevi komandi
         if(command->getName() == "prompt"){
-            if(!arg.empty()) prompt = arg;
+            if(!arg.empty() && checkLine(arg)) prompt = arg;
+            else output << "Error: Invalid input\n";
             continue;
         }else if(command->getName() == "batch"){
             std::vector<std::string> commands = Command::splitString(arg, '\n');
