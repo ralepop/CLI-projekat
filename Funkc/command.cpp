@@ -170,7 +170,7 @@ void Command::processCommand(std::vector<std::string> &inputs, std::string &inpu
         // proveravamo da li je prvi input u pitanju
         // ako jeste onda mora da sadrzi argument bez obzira da li ima cevovod ili ne
         if(isFirst && input != inputs[0]) isFirst = false;
-        if(!isLast && input == inputs.back()) isLast = true;
+        if(!isLast && input == inputs.back()) isLast = true; // provera da li je poslednji
 
         std::istringstream inputStream(input);
         std::string commandName;

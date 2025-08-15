@@ -24,6 +24,7 @@ void CommandInterpreter::start(){
         if(Command::pipeExist(inputLine)) inputs = Command::splitString(inputLine, '|');
         else inputs.push_back(inputLine);
 
+        // TODO: proveri da li je outputBuffer neophodan ili moze samo lastResult da radi
         std::ostringstream outputBuffer; // cuva izlaz komande
 
         std::ostream& output = (inputs.size() > 1) ? outputBuffer : std::cout;
