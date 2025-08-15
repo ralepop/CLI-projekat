@@ -9,11 +9,12 @@ void DateCommand::execute(std::string &opt, std::string &argument, std::ostream 
 
     if (redirectExist) {
         std::string redirectFile = redirectProcess(argument, redirectExist);
+        std::string text = putIntoString(redirectFile);
         if (!redirectFile.empty()) {
             std::ofstream file(redirectFile, std::ios_base::app);
-            file << std::put_time(now, "%d.%m.%Y") << ".\n";
-            return;
-        }
+            file << "\n" << std::put_time(now, "%d.%m.%Y.") << "\n";
+        } // TODO: SREDI NOVE REDOVE
+        output << text << std::endl;
     }
-    output << std::put_time(now, "%d.%m.%Y") << ".\n";
+    output << std::put_time(now, "%d.%m.%Y.") << "\n";
 }
