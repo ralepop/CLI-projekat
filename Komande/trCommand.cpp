@@ -6,7 +6,7 @@
 void TrCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
 
     // uzimamo iz outputa da bismo uzeli poslednji output
-    std::string mainStr = dynamic_cast<std::ostringstream&>(output).str();
+    // std::string mainStr = dynamic_cast<std::ostringstream&>(output).str();
 
     size_t firstQuo = argument.find('\"');
     size_t secondQuo = argument.find('\"', firstQuo + 1);
