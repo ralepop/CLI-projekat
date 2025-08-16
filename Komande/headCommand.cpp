@@ -6,7 +6,7 @@
 #include <algorithm>
 
 
-void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast){
 
     // proveravamo da li opt pocinje sa -n
     if(opt.rfind("-n", 0) != 0){
@@ -15,7 +15,7 @@ void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream 
     }
 
     std::string redirectFile, text;
-    bool doubleRedirect = false, valid = true, pipeExist = !lastResult.empty() ? true : false, wasNewline = false;
+    bool doubleRedirect = false, valid = true, wasNewline = false;
 
     if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
 

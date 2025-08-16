@@ -72,7 +72,7 @@ public:
     static void createFile(std::string &filename, std::ostream &output);
 
     // procesuira unos i stvara komandu
-    static void processCommand(std::vector<std::string> &inputs, std::string &inputLine, std::string &prompt, std::ostream &output, std::ostringstream &outputBuffer);
+    static void processCommand(std::vector<std::string> &inputs, std::string &inputLine, std::string &prompt, std::ostream &output, std::string &lastResult, bool &pipeExist);
 
     // delimo unos na nove linije i svaku liniju ubacujemo u vektor lines
     static void splitNewline(const std::string &line, std::vector<std::string> &lines);
@@ -87,7 +87,7 @@ public:
 
     // std::ostream &output prima referencu na izlazni tok
     // output moze da bude std::cout, fajl ili neka druga vrsta podataka
-    virtual void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) = 0;
+    virtual void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast) = 0;
 
     // Destruktor
     virtual ~Command() = default;

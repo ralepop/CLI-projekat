@@ -1,11 +1,13 @@
 #include "wcCommand.h"
 
+#include <cctype>
+#include <cstddef>
 #include <string>
 #include <fstream>
 #include <vector>
 #include <ostream>
 
-void WcCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void WcCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast){
     
     // provera za -opt
     if(opt != "-w" && opt != "-c"){
@@ -14,7 +16,7 @@ void WcCommand::execute(std::string &opt, std::string &argument, std::ostream &o
     }
 
     std::string redirectFile, text;
-    bool doubleRedirect = false, valid = true, pipeExist = !lastResult.empty() ? true : false;
+    bool doubleRedirect = false, valid = true;
 
     if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
 
@@ -24,8 +26,8 @@ void WcCommand::execute(std::string &opt, std::string &argument, std::ostream &o
     if(isFile){
         text = putIntoString(argument);
         if(text.empty()) return;
-    }else if(!pipeExist) text = argument;
-    else text = lastResult;
+    }else if(pipeExist && !lastResult.empty()) text = lastResult;
+    else text = argument;
 
     if(!newlineExist(text) && !pipeExist && !isFile) valid = checkLine(text);
 
@@ -36,11 +38,11 @@ void WcCommand::execute(std::string &opt, std::string &argument, std::ostream &o
     }
 
     // procesuiramo za odredjeni -opt
-    if(opt == "-w") processOptW(text, output, redirectFile, doubleRedirect, lastResult);
-    else if(opt == "-c") processOptC(text, output, redirectFile, doubleRedirect, lastResult);
+    if(opt == "-w") processOptW(text, output, redirectFile, doubleRedirect, lastResult, pipeExist, isFirst, isLast);
+    else if(opt == "-c") processOptC(text, output, redirectFile, doubleRedirect, lastResult, pipeExist, isFirst, isLast);
 }
 
-void WcCommand::processOptW(std::string& text, std::ostream& output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult){
+void WcCommand::processOptW(std::string& text, std::ostream& output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast){
     size_t i = 0;
 
     if(newlineExist(text)){
@@ -53,16 +55,20 @@ void WcCommand::processOptW(std::string& text, std::ostream& output, std::string
         }
     }
 
+    size_t result = newlineExist(text) ? i : countingWords(text);
+
     if(!redirectFile.empty()){
         std::ofstream file(redirectFile, doubleRedirect ? std::ios::app : std::ios::out);
         if(doubleRedirect) file << '\n';
-        file << (newlineExist(text) ? i : countingWords(text));
+        file << result;
         file.close();
-    }else output << (newlineExist(text) ? i : countingWords(text));
-    std::cout << '\n';
+    }else if(!pipeExist || (pipeExist && isLast)){
+        output << result << '\n';
+    }
+    lastResult = std::to_string(result);
 }
 
-void WcCommand::processOptC(std::string& text, std::ostream& output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult){
+void WcCommand::processOptC(std::string& text, std::ostream& output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast){
     size_t i = 0;
     
     if(newlineExist(text)){
@@ -75,11 +81,15 @@ void WcCommand::processOptC(std::string& text, std::ostream& output, std::string
         }
     }
 
+    size_t result = newlineExist(text) ? i : text.length();
+
     if(!redirectFile.empty()){
         std::ofstream file(redirectFile, doubleRedirect ? std::ios::app : std::ios::out);
         if(doubleRedirect) file << '\n';
-        file << (newlineExist(text) ? i : text.length());
+        file << result;
         file.close();
-    }else output << (newlineExist(text) ? i : text.length());
-    std::cout << '\n';
+    }else if(!pipeExist || (pipeExist && isLast)){
+        output << result << '\n';
+    }
+    lastResult = std::to_string(result);
 }

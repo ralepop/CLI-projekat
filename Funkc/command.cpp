@@ -159,10 +159,10 @@ void Command::createFile(std::string &filename, std::ostream &output){
     if(!file) output << "Error: Could not create the file " << filename << ".\n";
 }
 
-void Command::processCommand(std::vector<std::string> &inputs, std::string &inputLine, std::string &prompt, std::ostream &output, std::ostringstream &outputBuffer){
-
+void Command::processCommand(std::vector<std::string> &inputs, std::string &inputLine, std::string &prompt, std::ostream &output, std::string &lastResult, bool &pipeExist){
+    // TODO: svuda gde se ovde proverava da li postoji pipe da se skloni jer to proveravamo u Funkc/commandInterpreter.cpp|25 
     bool isFirst = true, isLast = false;
-    std::string lastResult;
+    // std::string lastResult;
     size_t start = 0, end;
 
     for(const std::string &input : inputs){
@@ -197,7 +197,7 @@ void Command::processCommand(std::vector<std::string> &inputs, std::string &inpu
         Command::stripWhitespace(arg);
 
         // ako treba da se unese vise linija
-        if(arg.empty() && command->doesTakeArg() && !Command::pipeExist(inputLine)){
+        if(arg.empty() && command->doesTakeArg() && !pipeExist){
             std::string additionalLine;
             while(true){
                 std::getline(std::cin, additionalLine);
@@ -213,26 +213,20 @@ void Command::processCommand(std::vector<std::string> &inputs, std::string &inpu
             continue;
         }else if(command->getName() == "batch"){
             std::vector<std::string> commands = Command::splitString(arg, '\n');
-            processCommand(commands, inputLine, prompt, output, outputBuffer);
+            processCommand(commands, inputLine, prompt, output, lastResult, pipeExist);
         }
 
         bool rediExist = Command::redirectExist(input);
 
-        command->execute(opt, arg, output, rediExist, lastResult);
+        command->execute(opt, arg, output, rediExist, lastResult, pipeExist, isFirst, isLast);
 
-        if(isLast && inputs.size() > 1){
-            if(command->getName() == "echo"){
-                std::cout << lastResult << '\n';
-                break;
-            }
-        }
+        // // end = outputBuffer.str().rfind('\n');
+        // end = lastResult.rfind('\n');
 
-        end = outputBuffer.str().rfind('\n');
-
-        if(end != std::string::npos){
-            lastResult = outputBuffer.str().substr(start, end - start);
-            start = end + 1;
-        }
+        // if(end != std::string::npos){
+        //     // lastResult = outputBuffer.str().substr(start, end - start);
+        //     start = end + 1;
+        // }
     }
 }
 

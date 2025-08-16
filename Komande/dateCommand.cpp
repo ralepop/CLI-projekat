@@ -2,19 +2,29 @@
 #include <ctime>
 #include <fstream>
 #include <iomanip> // std::put_time
+#include <sstream>
+#include <string>
 
-void DateCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) {
+void DateCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast) {
     const std::time_t t = std::time(nullptr); // vraca trenutno vreme
     const std::tm* now = std::localtime(&t); // std::tm* je pokazivac na strukturu koja sadrzi info o satima, minutima
 
-    if (redirectExist) {
-        std::string redirectFile = redirectProcess(argument, redirectExist);
-        std::string text = putIntoString(redirectFile);
-        if (!redirectFile.empty()) {
-            std::ofstream file(redirectFile, std::ios_base::app);
-            file << "\n" << std::put_time(now, "%d.%m.%Y.") << "\n";
-        } // TODO: SREDI NOVE REDOVE
-        output << text << std::endl;
+    auto result = std::put_time(now, "%d.%m.%Y.\n");
+
+    std::string redirectFile, text;
+    if(redirectExist) redirectFile = redirectProcess(argument, redirectExist);
+
+    
+    if (redirectExist && !redirectFile.empty()) {
+        std::ofstream file(redirectFile, std::ios::out);
+        file << result;
+
+        text = putIntoString(redirectFile);
+        output << text;
+    }else if(!pipeExist || (pipeExist && isLast)){
+        output << result;
     }
-    output << std::put_time(now, "%d.%m.%Y.") << "\n";
+    std::ostringstream temp;
+    temp << result;
+    lastResult = temp.str();
 }

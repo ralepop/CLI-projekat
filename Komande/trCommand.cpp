@@ -3,7 +3,7 @@
 #include <sstream>
 #include <string>
 
-void TrCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void TrCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast){
 
     // uzimamo iz outputa da bismo uzeli poslednji output
     // std::string mainStr = dynamic_cast<std::ostringstream&>(output).str();

@@ -10,6 +10,7 @@ void CommandInterpreter::start(){
 
     while(true){
         std::cout << prompt << ' ';
+        bool pipeExist = false;
 
         // citamo celu liniju
         std::string inputLine;
@@ -21,15 +22,19 @@ void CommandInterpreter::start(){
 
         std::vector<std::string> inputs;
 
-        if(Command::pipeExist(inputLine)) inputs = Command::splitString(inputLine, '|');
+        if(Command::pipeExist(inputLine)){
+            inputs = Command::splitString(inputLine, '|');
+            pipeExist = true;
+        } 
         else inputs.push_back(inputLine);
 
         // TODO: proveri da li je outputBuffer neophodan ili moze samo lastResult da radi
-        std::ostringstream outputBuffer; // cuva izlaz komande
+        // std::ostringstream outputBuffer; // cuva izlaz komande
+        std::string lastResult;
 
-        std::ostream& output = (inputs.size() > 1) ? outputBuffer : std::cout;
+        std::ostream& output = std::cout;
 
-        Command::processCommand(inputs, inputLine, prompt, output, outputBuffer);
+        Command::processCommand(inputs, inputLine, prompt, output, lastResult, pipeExist);
         
     }
 

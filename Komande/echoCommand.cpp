@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 
-void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult){
+void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast){
 
     std::string redirectFile, text;
-    bool doubleRedirect = false, valid = true, pipeExist = !lastResult.empty() ? true : false;
+    bool doubleRedirect = false, valid = true;
 
     if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
 
@@ -16,8 +16,8 @@ void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream 
     if(isFile){
         text = putIntoString(argument);
         if(text.empty()) return;
-    }else if(!pipeExist) text = argument;
-    else text = lastResult;
+    }else if(pipeExist && !lastResult.empty()) text = lastResult;
+    else text = argument;
 
     if(!newlineExist(text) && !pipeExist && !isFile) valid = checkLine(text);
 
@@ -45,6 +45,9 @@ void EchoCommand::execute(std::string &opt, std::string &argument, std::ostream 
                 file << text;
             }else output << std::endl;
             file.close();
-        }else output << text << std::endl;
+        }else if(!pipeExist || (pipeExist && isLast)){
+            output << text << std::endl;
+        }
     }
+    lastResult = text;
 }

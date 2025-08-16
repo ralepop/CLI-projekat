@@ -9,7 +9,7 @@ public:
 
     WcCommand() : Command(true, true){} // uzima argumente i uzima opt 
 
-    void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult) override;
+    void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast) override;
 
     std::string getName() const override { return "wc"; }
 
@@ -27,9 +27,9 @@ public:
         return i;
     }
 
-    static void processOptW(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult);
+    static void processOptW(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast);
 
-    static void processOptC(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult);
+    static void processOptC(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast);
 };
 
 #endif
