@@ -21,6 +21,7 @@ void DateCommand::execute(std::string &opt, std::string &argument, std::ostream 
 
         text = putIntoString(redirectFile);
         output << text;
+        file.close();
     }else if(!pipeExist || (pipeExist && isLast)){
         output << result;
     }
