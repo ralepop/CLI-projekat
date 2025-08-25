@@ -48,7 +48,7 @@ bool Command::checkLine(std::string &line){
 bool Command::errorHandling(const std::string &line){
 
     // Skup dozvoljenih simbola
-    const std::string validSymbols = "-\"<>.|: ";
+    const std::string validSymbols = "-\"<>.|: \r";
     bool isFine = true;
 
     std::vector<size_t> errorPositions;
@@ -213,6 +213,16 @@ void Command::processCommand(std::vector<std::string> &inputs, std::string &inpu
             continue;
         }else if(command->getName() == "batch"){
             std::vector<std::string> commands = Command::splitString(arg, '\n');
+            
+            if(commands.size() == 1){
+                const bool isFile = checkIfFile(commands[0], "txt");
+                std::string file = commands[0];
+                commands.clear();
+                if(isFile){
+                    std::string text = putIntoString(file);
+                    splitNewline(text, commands);
+                }
+            }
             processCommand(commands, inputLine, prompt, output, lastResult, pipeExist);
         }
 
@@ -234,12 +244,15 @@ void Command::splitNewline(const std::string &line, std::vector<std::string> &li
     size_t start = 0, end = line.find('\n');
 
     while(end != std::string::npos){
-        lines.push_back(line.substr(start, end - start));
+        std::string temp = line.substr(start, end - start);
+        if(!temp.empty()) lines.push_back(temp);
         start = end + 1;
         end = line.find('\n', start); // nalazimo sledeci '\n'
     }
     
-    lines.push_back(line.substr(start, line.length() - start));
+    std::string remainder = line.substr(start, line.length() - start);
+
+    if(!remainder.empty()) lines.push_back(remainder);
 }
 
 void Command::stripWhitespace(std::string &line){
