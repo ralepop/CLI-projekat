@@ -7,7 +7,7 @@ class DateCommand : public Command {
 
 public:
 
-    DateCommand() : Command(false){} // false jer ne prima argumente
+    DateCommand() : Command(false) {} // false jer ne prima argumente
 
     // referenca: https://en.cppreference.com/w/cpp/chrono/c/tm
     

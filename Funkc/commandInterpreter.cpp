@@ -6,9 +6,9 @@
 
 constexpr size_t MAX_LINE_SIZE = 512;
 
-void CommandInterpreter::start(){
+void CommandInterpreter::start() {
 
-    while(true){
+    while (true) {
         std::cout << prompt << ' ';
         bool pipeExist = false;
 
@@ -16,20 +16,18 @@ void CommandInterpreter::start(){
         std::string inputLine;
         std::getline(std::cin, inputLine);
 
-        if(inputLine.empty()) break;
+        if (inputLine.empty()) break;
 
-        if(inputLine.length() > MAX_LINE_SIZE) inputLine = inputLine.substr(0, MAX_LINE_SIZE);
+        if (inputLine.length() > MAX_LINE_SIZE) inputLine = inputLine.substr(0, MAX_LINE_SIZE);
 
         std::vector<std::string> inputs;
 
-        if(Command::pipeExist(inputLine)){
+        if (Command::pipeExist(inputLine)) {
             inputs = Command::splitString(inputLine, '|');
             pipeExist = true;
         } 
         else inputs.push_back(inputLine);
 
-        // TODO: proveri da li je outputBuffer neophodan ili moze samo lastResult da radi
-        // std::ostringstream outputBuffer; // cuva izlaz komande
         std::string lastResult;
 
         std::ostream& output = std::cout;

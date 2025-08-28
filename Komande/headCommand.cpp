@@ -6,10 +6,10 @@
 #include <algorithm>
 
 
-void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast){
+void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast) {
 
     // proveravamo da li opt pocinje sa -n
-    if(opt.rfind("-n", 0) != 0){
+    if (opt.rfind("-n", 0) != 0) {
         output << "Error: Invalid -ncount.\n";
         return;
     }
@@ -17,39 +17,39 @@ void HeadCommand::execute(std::string &opt, std::string &argument, std::ostream 
     std::string redirectFile, text;
     bool doubleRedirect = false, valid = true, wasNewline = false;
 
-    if(redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
+    if (redirectExist) redirectFile = redirectProcess(argument, doubleRedirect);
 
     const bool isFile  = checkIfFile(argument, "txt");
 
-    if(isFile){
+    if (isFile) {
         text = putIntoString(argument);
-        if(text.empty()) return;
-    }else if(!pipeExist) text = argument;
+        if (text.empty()) return;
+    }else if (!pipeExist) text = argument;
     else text = lastResult;
 
-    if(!newlineExist(text) && !pipeExist && !isFile) valid = checkLine(text);
+    if (!newlineExist(text) && !pipeExist && !isFile) valid = checkLine(text);
 
-    if(!valid){
+    if (!valid) {
         const std::string errorLine = "head " + opt + " " + argument;
-        if(!isFile && errorHandling(errorLine)) output << "Error: Invalid input\n";
+        if (!isFile && errorHandling(errorLine)) output << "Error: Invalid input\n";
         return;
     }
 
     opt = opt.substr(2); // uzimamo deo nakon "-n"
 
-    if(opt.empty() || opt.length() > 5 || !std::all_of(opt.begin(), opt.end(), ::isdigit)) output << "Error: Invalid input.\n";
+    if (opt.empty() || opt.length() > 5 || !std::all_of(opt.begin(), opt.end(), ::isdigit)) output << "Error: Invalid input.\n";
 
     int num = std::stoi(opt), j = 0;
 
-    for(size_t i = 0; i < text.size(); ++i){
+    for (size_t i = 0; i < text.size(); ++i) {
 
-        if(text[i] == '\n'){
+        if (text[i] == '\n') {
             wasNewline = true;
             output << '\n';
             j++;
-            if(j == num) break;
+            if (j == num) break;
         }else wasNewline = false;
 
-        if(!wasNewline) output << text[i];
+        if (!wasNewline) output << text[i];
     }
 }

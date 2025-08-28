@@ -7,7 +7,7 @@ class TouchCommand : public Command {
     
 public:
 
-    TouchCommand() : Command(true){} // true jer prima argumente
+    TouchCommand() : Command(true) {} // true jer prima argumente
 
     void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast) override;
 

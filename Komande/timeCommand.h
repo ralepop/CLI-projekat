@@ -7,7 +7,7 @@ class TimeCommand : public Command {
 
 public:
 
-    TimeCommand() : Command(false){} // false jer ne prima argumente
+    TimeCommand() : Command(false) {} // false jer ne prima argumente
 
     void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast) override;
 

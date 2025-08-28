@@ -7,8 +7,6 @@
 
 class CommandInterpreter {
 
-private:
-
     CommandFactory &commandFactory;
     std::string prompt; // korisnik ga moze menjati
 
@@ -19,8 +17,6 @@ public:
     commandFactory(t_commandFactory),
     prompt(t_prompt)
     {};
-
-    inline void setPrompt(const std::string &p) { prompt = p; }
 
     // pokrece glavnu petlju za unos i izvrsavanje komandi
     void start();

@@ -7,7 +7,7 @@ class PromptCommand : public Command {
 
 public:
 
-    PromptCommand() : Command(true){} // true jer prima argumente
+    PromptCommand() : Command(true) {} // true jer prima argumente
 
     void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast) override;
 

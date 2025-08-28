@@ -7,19 +7,19 @@ class WcCommand : public Command {
     
 public:
 
-    WcCommand() : Command(true, true){} // uzima argumente i uzima opt 
+    WcCommand() : Command(true, true) {} // uzima argumente i uzima opt
 
     void execute(std::string &opt, std::string &argument, std::ostream &output, bool &redirectExist, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast) override;
 
     std::string getName() const override { return "wc"; }
 
-    static size_t countingWords(const std::string &line){
+    static size_t countingWords(const std::string &line) {
         bool word = false;
         int i = 0;
         
-        for(const char c : line){
+        for (const char c : line) {
             if (std::isspace(c)) word = false;
-            else if (!word){
+            else if (!word) {
                 i++;
                 word = true;
             }
@@ -27,9 +27,9 @@ public:
         return i;
     }
 
-    static void processOptW(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast);
+    static void processOptW(std::string &text, std::ostream &output, bool &redirectExist, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast);
 
-    static void processOptC(std::string &text, std::ostream &output, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast);
+    static void processOptC(std::string &text, std::ostream &output, bool &redirectExist, std::string &redirectFile, bool &doubleRedirect, std::string &lastResult, bool &pipeExist, bool &isFirst, bool &isLast);
 };
 
 #endif

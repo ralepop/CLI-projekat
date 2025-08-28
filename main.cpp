@@ -5,7 +5,8 @@
 #include <string>
 
 int main() {
-    std::string prompt = "$";
+
+    const std::string prompt = "$";
     CommandFactory commandFactory;
 
     CommandInterpreter interpreter(commandFactory, prompt);
