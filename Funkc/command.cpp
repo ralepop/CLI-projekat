@@ -1,6 +1,11 @@
 #include "command.h"
 #include "commandFactory.h"
 
+bool ends_with(const std::string& str, const std::string& suffix) {
+    return str.size() >= suffix.size() &&
+           str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
 bool Command::checkIfFile(std::string &line, const std::string& filetype){
 
     // Ako je duzina stringa 'line' manja od minimalne potrebne duzine vraca false
@@ -14,7 +19,8 @@ bool Command::checkIfFile(std::string &line, const std::string& filetype){
     }
 
     // Proverava da li se string 'line' zavrsava sa zadatom ekstenzijom 'filetype'
-    return line.ends_with('.' + filetype);
+    // return line.ends_with('.' + filetype);
+    return ends_with(line, "." + filetype);
 }
 
 bool Command::checkLine(std::string &line){
